@@ -9,9 +9,18 @@ export const QuizListContainer = styled(Container)`
         padding: 20px;
         font-weight: 600;
         margin-top: 10px;
+        transition: 0.2s;
+        cursor: pointer;
+        position: relative;
 
         &:hover {
-            box-shadow: ;
+            box-shadow: 0 2px 13px -1px rgba(135, 135, 135, 1);
+        }
+
+        .play-icon {
+            position: absolute;
+            right: 9px;
+            top: 7px;
         }
     }
 `;
