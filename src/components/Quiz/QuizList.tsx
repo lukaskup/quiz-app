@@ -1,0 +1,77 @@
+import React, { useState } from 'react';
+import { Table, ButtonIcon, ButtonLink, Button } from '../../App.styled';
+import { Quiz } from '../../models/Quiz';
+import { ReactSVG } from 'react-svg';
+import TrashIcon from '../../assets/icons/TrashIcon.svg';
+import { Modal } from '../Modal';
+import { GreyBackground, ModalButtons, ModalContent, ModalTitle } from '../Modal/Modal.styled';
+import CloseIcon from '../../assets/icons/CloseIcon.svg';
+import { useModalState } from '../Modal/Modal';
+
+interface QuizListProps {
+    quizzes: Array<Quiz>;
+}
+
+export const QuizList = ({ quizzes }: QuizListProps) => {
+    const deleteModalState = useModalState();
+    const [activeDeleteQuiz, setActiveDeleteQuiz] = useState<Quiz | null>(null);
+
+    return (
+        <>
+            <h1>Quizzes list</h1>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Image url</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                {quizzes.map((quiz: Quiz, i: number) => {
+                    return (
+                        <tr key={`${quiz}-${i}`}>
+                            <td>{quiz.id}</td>
+                            <td>{quiz.name}</td>
+                            <td>{quiz.description}</td>
+                            <td>{quiz.image_url ? quiz.image_url : '-'}</td>
+                            <td>
+                                <ButtonLink to={`/quiz/view/${quiz.id}`}>View</ButtonLink>
+                                <ButtonLink to={`/quiz/edit/${quiz.id}`}>Edit</ButtonLink>
+                                <ButtonIcon
+                                    onClick={() => {
+                                        setActiveDeleteQuiz(quiz);
+                                        deleteModalState.setIsOpen(true);
+                                    }}
+                                >
+                                    <ReactSVG src={TrashIcon} />
+                                </ButtonIcon>
+                            </td>
+                        </tr>
+                    );
+                })}
+            </Table>
+            <Modal
+                state={deleteModalState}
+                body={
+                    <>
+                        <ModalTitle>
+                            <title>Delete Quiz</title>
+                            <ReactSVG
+                                src={CloseIcon}
+                                className={'close-icon'}
+                                onClick={() => deleteModalState.setIsOpen(false)}
+                            />
+                        </ModalTitle>
+                        <ModalContent>Are you sure u want to delete quiz {activeDeleteQuiz?.id}?</ModalContent>
+                        <ModalButtons>
+                            <Button style={{ float: 'right', background: 'red' }}>Yes, delete!</Button>
+                            <Button style={{ float: 'right' }}>Nope!</Button>
+                        </ModalButtons>
+                    </>
+                }
+            />
+        </>
+    );
+};
