@@ -13,6 +13,11 @@ export const Navigation = () => {
                     <ReactSVG src={Logo} className="logo-icon" />
                     <title>Quizyzz</title>
                 </Link>
+                <div className={'navi-links'}>
+                    <Link to={'/quiz'}>quizzes</Link>
+                    <Link to={'/user'}>users</Link>
+                    <Link to={'/userQuiz'}>userQuizzes</Link>
+                </div>
             </Container>
         </NavigationContainer>
     );

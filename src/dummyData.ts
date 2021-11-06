@@ -40,7 +40,7 @@ export const users: Array<User> = [
     { id: 19, email: 'dignissim.lacus@aclibero.net', firstname: 'Ashton', lastname: 'Dixon', password: 'test' },
 ];
 
-export const UserQuizzes: Array<UserQuiz> = [
+export const userQuizzes: Array<UserQuiz> = [
     { id: 20, rating: 3, submitted_at: new Date(), score: 8, quiz: quizzes[0], user: users[0] },
     { id: 21, rating: 3, submitted_at: new Date(), score: 8, quiz: quizzes[0], user: users[0] },
     { id: 22, rating: 3, submitted_at: new Date(), score: 8, quiz: quizzes[0], user: users[0] },

@@ -28,4 +28,17 @@ export const NavigationContainer = styled.nav`
             padding-left: 50px;
         }
     }
+
+    .navi-links {
+        position: absolute;
+        right: 0;
+        top: 10px;
+        width: fit-content;
+
+        a {
+            padding: 5px 15px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+    }
 `;

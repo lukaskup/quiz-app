@@ -1,27 +1,24 @@
 import React, { useState } from 'react';
-import { Table, ButtonIcon, ButtonLink, Button, InfoBadge } from '../../App.styled';
-import { Quiz } from '../../models/Quiz';
+import { Table, ButtonIcon, ButtonLink, Button } from '../../App.styled';
 import { ReactSVG } from 'react-svg';
 import TrashIcon from '../../assets/icons/TrashIcon.svg';
 import { Modal } from '../Modal';
 import { ModalButtons, ModalContent, ModalTitle } from '../Modal/Modal.styled';
 import CloseIcon from '../../assets/icons/CloseIcon.svg';
 import { useModalState } from '../Modal/Modal';
+import { User } from '../../models/User';
 
 interface QuizListProps {
-    quizzes: Array<Quiz>;
+    users: Array<User>;
 }
 
-export const QuizList = ({ quizzes }: QuizListProps) => {
+export const UserList = ({ users }: QuizListProps) => {
     const deleteModalState = useModalState();
-    const [activeDeleteQuiz, setActiveDeleteQuiz] = useState<Quiz | null>(null);
+    const [activeDeleteUser, setActiveDeleteUser] = useState<User | null>(null);
 
     return (
         <>
-            <InfoBadge className={'success'}>Successfully added quiz to database! :)</InfoBadge>
-            <InfoBadge className={'success'}>Successfully updated quiz in database! :)</InfoBadge>
-            <InfoBadge className={'success'}>Successfully deleted quiz in database! :)</InfoBadge>
-            <h1 style={{ display: 'inline-block' }}>Quizzes list</h1>
+            <h1 style={{ display: 'inline-block' }}>Users list</h1>
             <ButtonLink to="/quiz/add" style={{ marginTop: '50px', float: 'right' }}>
                 Add
             </ButtonLink>
@@ -29,25 +26,25 @@ export const QuizList = ({ quizzes }: QuizListProps) => {
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Image url</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Email</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                {quizzes.map((quiz: Quiz, i: number) => {
+                {users.map((user: User, i: number) => {
                     return (
-                        <tr key={`${quiz}-${i}`}>
-                            <td>{quiz.id}</td>
-                            <td>{quiz.name}</td>
-                            <td>{quiz.description}</td>
-                            <td>{quiz.image_url ? quiz.image_url : '-'}</td>
+                        <tr key={`${user.id}-${i}`}>
+                            <td>{user.id}</td>
+                            <td>{user.firstname}</td>
+                            <td>{user.lastname}</td>
+                            <td>{user.email}</td>
                             <td>
-                                <ButtonLink to={`/quiz/view/${quiz.id}`}>View</ButtonLink>
-                                <ButtonLink to={`/quiz/edit/${quiz.id}`}>Edit</ButtonLink>
+                                <ButtonLink to={`/user/view/${user.id}`}>View</ButtonLink>
+                                <ButtonLink to={`/user/edit/${user.id}`}>Edit</ButtonLink>
                                 <ButtonIcon
                                     onClick={() => {
-                                        setActiveDeleteQuiz(quiz);
+                                        setActiveDeleteUser(user);
                                         deleteModalState.setIsOpen(true);
                                     }}
                                 >
@@ -63,14 +60,14 @@ export const QuizList = ({ quizzes }: QuizListProps) => {
                 body={
                     <>
                         <ModalTitle>
-                            <title>Delete Quiz</title>
+                            <title>Delete User</title>
                             <ReactSVG
                                 src={CloseIcon}
                                 className={'close-icon'}
                                 onClick={() => deleteModalState.setIsOpen(false)}
                             />
                         </ModalTitle>
-                        <ModalContent>Are you sure u want to delete quiz {activeDeleteQuiz?.id}?</ModalContent>
+                        <ModalContent>Are you sure u want to delete user {activeDeleteUser?.id}?</ModalContent>
                         <ModalButtons>
                             <Button style={{ float: 'right', background: 'red' }}>Yes, delete!</Button>
                             <Button style={{ float: 'right' }}>Nope!</Button>
