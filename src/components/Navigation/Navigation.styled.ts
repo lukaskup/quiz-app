@@ -20,7 +20,7 @@ export const NavigationContainer = styled.nav`
             }
         }
 
-        title {
+        span {
             display: block;
             font-size: 36px;
             font-weight: 800;

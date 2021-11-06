@@ -27,19 +27,19 @@ export const QuizView = () => {
             </ButtonLink>
             <ViewContainer>
                 <ViewInfo>
-                    <title>Name</title>
+                    <span>Name</span>
                     <span>{quiz?.name}</span>
                 </ViewInfo>
                 <ViewInfo>
-                    <title>Description</title>
+                    <span>Description</span>
                     <span>{quiz?.description}</span>
                 </ViewInfo>
                 <ViewInfo>
-                    <title>Image url</title>
+                    <span>Image url</span>
                     <span>{quiz?.image_url ? quiz?.image_url : '-'}</span>
                 </ViewInfo>
             </ViewContainer>
-            <UserList users={users} title={<h1>Users who took this quiz</h1>} />
+            <UserList users={users} title={<h2>Users who took this quiz</h2>} />
         </>
     );
 };

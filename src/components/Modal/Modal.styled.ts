@@ -4,7 +4,7 @@ export const ModalTitle = styled.div`
     padding: 2px 10px 8px 10px;
     border-bottom: 1px solid #d1d1d1;
 
-    title {
+    span {
         font-size: 24px;
         display: inline-block;
     }

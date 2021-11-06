@@ -84,7 +84,7 @@ export const ViewContainer = styled(Container)`
 
 export const ViewInfo = styled.div`
     padding: 10px 15px;
-    title {
+    span {
         font-weight: 600;
         display: block;
         margin-bottom: 5px;

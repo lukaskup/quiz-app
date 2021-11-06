@@ -11,7 +11,7 @@ export const Navigation = () => {
             <Container>
                 <Link to="/">
                     <ReactSVG src={Logo} className="logo-icon" />
-                    <title>Quizyzz</title>
+                    <span>Quizyzz</span>
                 </Link>
                 <div className={'navi-links'}>
                     <Link to={'/quiz'}>quizzes</Link>

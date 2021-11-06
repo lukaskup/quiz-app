@@ -72,7 +72,7 @@ export const UserQuizList = ({ userQuizzes, title }: UserQuizListProps) => {
                 body={
                     <>
                         <ModalTitle>
-                            <title>Delete User-quiz</title>
+                            <span>Delete User-quiz</span>
                             <ReactSVG
                                 src={CloseIcon}
                                 className={'close-icon'}

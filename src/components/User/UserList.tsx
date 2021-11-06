@@ -63,7 +63,7 @@ export const UserList = ({ users, title }: QuizListProps) => {
                 body={
                     <>
                         <ModalTitle>
-                            <title>Delete User</title>
+                            <span>Delete User</span>
                             <ReactSVG
                                 src={CloseIcon}
                                 className={'close-icon'}

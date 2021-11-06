@@ -25,25 +25,25 @@ export const UserQuizView = () => {
             </ButtonLink>
             <ViewContainer>
                 <ViewInfo>
-                    <title>Submitted at</title>
+                    <span>Submitted at</span>
                     <span>{userQuiz?.submitted_at.toLocaleDateString()}</span>
                 </ViewInfo>
                 <ViewInfo>
-                    <title>Rating</title>
+                    <span>Rating</span>
                     <span>{userQuiz?.rating ? userQuiz?.rating : '-'}</span>
                 </ViewInfo>
                 <ViewInfo>
-                    <title>Score</title>
+                    <span>Score</span>
                     <span>{userQuiz?.score}</span>
                 </ViewInfo>
                 <ViewInfo>
-                    <title>User</title>
+                    <span>User</span>
                     <span>
                         <Link to={`/quiz/view/${userQuiz?.user.id}`}>{userQuiz?.user.id}</Link>
                     </span>
                 </ViewInfo>
                 <ViewInfo>
-                    <title>Quiz</title>
+                    <span>Quiz</span>
                     <span>
                         <Link to={`/quiz/view/${userQuiz?.quiz.id}`}>{userQuiz?.quiz.id}</Link>
                     </span>
