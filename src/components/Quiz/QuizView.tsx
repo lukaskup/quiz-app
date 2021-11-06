@@ -3,7 +3,6 @@ import { Quiz } from '../../models/Quiz';
 import { useParams } from 'react-router';
 import { quizzes, userQuizzes } from '../../dummyData';
 import { ButtonLink, ViewContainer, ViewInfo } from '../../App.styled';
-import { UserQuizList } from '../UserQuiz';
 import { UserList } from '../User';
 
 interface QuizViewUrlParams {
