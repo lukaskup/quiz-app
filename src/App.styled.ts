@@ -88,6 +88,10 @@ export const ViewInfo = styled.div`
         font-weight: 600;
         display: block;
         margin-bottom: 5px;
+
+        &: nth-child(2) {
+            font-weight: 400;
+        }
     }
 `;
 
