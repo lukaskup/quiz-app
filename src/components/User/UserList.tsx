@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Table, ButtonIcon, ButtonLink, Button } from '../../App.styled';
 import { ReactSVG } from 'react-svg';
 import TrashIcon from '../../assets/icons/TrashIcon.svg';
@@ -10,18 +10,21 @@ import { User } from '../../models/User';
 
 interface QuizListProps {
     users: Array<User>;
+    title?: ReactElement;
 }
 
-export const UserList = ({ users }: QuizListProps) => {
+export const UserList = ({ users, title }: QuizListProps) => {
     const deleteModalState = useModalState();
     const [activeDeleteUser, setActiveDeleteUser] = useState<User | null>(null);
 
     return (
         <>
-            <h1 style={{ display: 'inline-block' }}>Users list</h1>
-            <ButtonLink to="/quiz/add" style={{ marginTop: '50px', float: 'right' }}>
-                Add
-            </ButtonLink>
+            {title ? title : <h1 style={{ display: 'inline-block' }}>Users list</h1>}
+            {!title && (
+                <ButtonLink to="/quiz/add" style={{ marginTop: '50px', float: 'right' }}>
+                    Add
+                </ButtonLink>
+            )}
             <Table>
                 <thead>
                     <tr>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { users } from '../../dummyData';
+import { userQuizzes, users } from '../../dummyData';
 import { ButtonLink, ViewContainer, ViewInfo } from '../../App.styled';
 import { User } from '../../models/User';
+import { UserQuizList } from '../UserQuiz';
 
 interface UserViewUrlParams {
     id: string;
@@ -15,6 +16,8 @@ export const UserView = () => {
         const activeUser = users.find((quiz) => quiz.id === parseInt(id));
         setUser(activeUser ? activeUser : null);
     }, []);
+
+    const userTakenQuizzes = userQuizzes.filter((x) => x.user.id === user?.id);
 
     return (
         <>
@@ -36,6 +39,7 @@ export const UserView = () => {
                     <span>{user?.email}</span>
                 </ViewInfo>
             </ViewContainer>
+            <UserQuizList userQuizzes={userTakenQuizzes} title={<h1>Quizes taken by user</h1>} />
         </>
     );
 };
