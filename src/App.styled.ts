@@ -45,6 +45,7 @@ export const Container = styled.div`
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    padding: 0 40px;
 `;
 
 export const Table = styled.table`

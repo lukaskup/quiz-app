@@ -21,7 +21,7 @@ export const UserList = ({ users, title }: QuizListProps) => {
         <>
             {title ? title : <h1 style={{ display: 'inline-block' }}>Users list</h1>}
             {!title && (
-                <ButtonLink to="/quiz/add" style={{ marginTop: '50px', float: 'right' }}>
+                <ButtonLink to="/user/add" style={{ marginTop: '50px', float: 'right' }}>
                     Add
                 </ButtonLink>
             )}
