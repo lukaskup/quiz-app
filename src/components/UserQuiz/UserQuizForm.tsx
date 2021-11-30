@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button } from '../../App.styled';
 import { useParams } from 'react-router';
-import { userQuizzes } from '../../dummyData';
+import { userQuizzes, users, quizzes } from '../../dummyData';
 import { UserQuiz } from '../../models/UserQuiz';
 
 export enum UserQuizFormTypes {
@@ -46,11 +46,24 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                 </div>
                 <div>
                     <label>Score</label>
-                    <input type="number" placeholder={'image url'} value={userQuiz ? userQuiz.score : ''} />
+                    <select>
+                        {quizzes.map((quiz) => (
+                            <option key={`quiz-${quiz.id}`} value={quiz.id}>
+                                {`${quiz.name}`}
+                            </option>
+                        ))}
+                        x
+                    </select>
                 </div>
                 <div>
                     <label>User id</label>
-                    <input type="number" placeholder={'user id'} value={userQuiz ? userQuiz.user.id : ''} />
+                    <select>
+                        {users.map((user) => (
+                            <option key={`user-${user.id}`} value={user.id}>
+                                {`${user.firstname} ${user.lastname}`}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div>
                     <label>Quiz id</label>

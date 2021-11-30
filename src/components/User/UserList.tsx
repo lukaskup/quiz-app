@@ -46,6 +46,7 @@ export const UserList = ({ users, title }: QuizListProps) => {
                                 <ButtonLink to={`/user/view/${user.id}`}>View</ButtonLink>
                                 <ButtonLink to={`/user/edit/${user.id}`}>Edit</ButtonLink>
                                 <ButtonIcon
+                                    className="delete-button"
                                     onClick={() => {
                                         setActiveDeleteUser(user);
                                         deleteModalState.setIsOpen(true);

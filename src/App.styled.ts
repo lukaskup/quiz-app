@@ -72,6 +72,19 @@ export const Table = styled.table`
             }
         }
     }
+
+    @media only screen and (max-width: 768px) {
+        a {
+            width: calc(100% - 15px);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .delete-button {
+            text-align: center;
+            width: calc(100% - 10px);
+        }
+    }
 `;
 
 export const ViewContainer = styled(Container)`
@@ -90,7 +103,7 @@ export const ViewInfo = styled.div`
         display: block;
         margin-bottom: 5px;
 
-        &: nth-child(2) {
+        &:nth-child(2) {
             font-weight: 400;
         }
     }
@@ -117,7 +130,8 @@ export const Form = styled.form`
         font-size: 18px;
     }
 
-    input {
+    input,
+    select {
         padding: 8px;
         border: 1px solid #d1d1d1;
         border-radius: 9px;
