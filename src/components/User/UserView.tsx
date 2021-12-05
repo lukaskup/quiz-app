@@ -39,7 +39,7 @@ export const UserView = () => {
                     <span>{user?.email}</span>
                 </ViewInfo>
             </ViewContainer>
-            <UserQuizList userQuizzes={userTakenQuizzes} title={<h2>Quizes taken by user</h2>} />
+            <UserQuizList userQuizzes={userTakenQuizzes} title={<h2>Quizes taken by user</h2>} dontShow={['user']} />
         </>
     );
 };

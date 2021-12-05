@@ -46,17 +46,10 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                 </div>
                 <div>
                     <label>Score</label>
-                    <select>
-                        {quizzes.map((quiz) => (
-                            <option key={`quiz-${quiz.id}`} value={quiz.id}>
-                                {`${quiz.name}`}
-                            </option>
-                        ))}
-                        x
-                    </select>
+                    <input type="number" placeholder={'score'} value={userQuiz ? userQuiz.score : ''} />
                 </div>
                 <div>
-                    <label>User id</label>
+                    <label>User</label>
                     <select>
                         {users.map((user) => (
                             <option key={`user-${user.id}`} value={user.id}>
@@ -66,8 +59,15 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                     </select>
                 </div>
                 <div>
-                    <label>Quiz id</label>
-                    <input type="number" placeholder={'quiz id'} value={userQuiz ? userQuiz.quiz.id : ''} />
+                    <label>Quiz</label>
+                    <select>
+                        {quizzes.map((quiz) => (
+                            <option key={`quiz-${quiz.id}`} value={quiz.id}>
+                                {`${quiz.name}`}
+                            </option>
+                        ))}
+                        x
+                    </select>
                 </div>
                 <Button type={'submit'} onClick={(e) => e.preventDefault}>
                     Save

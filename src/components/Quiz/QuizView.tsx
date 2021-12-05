@@ -3,7 +3,7 @@ import { Quiz } from '../../models/Quiz';
 import { useParams } from 'react-router';
 import { quizzes, userQuizzes } from '../../dummyData';
 import { ButtonLink, ViewContainer, ViewInfo } from '../../App.styled';
-import { UserList } from '../User';
+import { UserQuizList } from '../UserQuiz';
 
 interface QuizViewUrlParams {
     id: string;
@@ -16,8 +16,6 @@ export const QuizView = () => {
         const activeQuiz = quizzes.find((quiz) => quiz.id === parseInt(id));
         setQuiz(activeQuiz ? activeQuiz : null);
     }, []);
-
-    const users = userQuizzes.filter((userQuiz) => userQuiz.quiz.id === quiz?.id).map((userQuiz) => userQuiz.user);
 
     return (
         <>
@@ -39,7 +37,7 @@ export const QuizView = () => {
                     <span>{quiz?.image_url ? quiz?.image_url : '-'}</span>
                 </ViewInfo>
             </ViewContainer>
-            <UserList users={users} title={<h2>Users who took this quiz</h2>} />
+            <UserQuizList userQuizzes={userQuizzes} title={<h2>Quiz attempts</h2>} />
         </>
     );
 };

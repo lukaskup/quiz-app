@@ -12,9 +12,10 @@ import { Link } from 'react-router-dom';
 interface UserQuizListProps {
     userQuizzes: Array<UserQuiz>;
     title?: ReactElement;
+    dontShow?: Array<string>;
 }
 
-export const UserQuizList = ({ userQuizzes, title }: UserQuizListProps) => {
+export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps) => {
     const deleteModalState = useModalState();
     const [activeDeleteUserQuiz, setActiveDeleteUserQuiz] = useState<UserQuiz | null>(null);
 
@@ -33,7 +34,7 @@ export const UserQuizList = ({ userQuizzes, title }: UserQuizListProps) => {
                         <th>Submitted at</th>
                         <th>rating</th>
                         <th>score</th>
-                        <th>user</th>
+                        {!dontShow?.includes('user') ? <th>user</th> : ''}
                         <th>quiz</th>
                         <th>Actions</th>
                     </tr>
@@ -45,11 +46,17 @@ export const UserQuizList = ({ userQuizzes, title }: UserQuizListProps) => {
                             <td>{userQuiz.submitted_at.toLocaleDateString()}</td>
                             <td>{userQuiz.rating ? userQuiz.rating : '-'}</td>
                             <td>{userQuiz.score}</td>
+                            {!dontShow?.includes('user') ? (
+                                <td>
+                                    <Link to={`/user/view/${userQuiz.user.id}`}>
+                                        {`${userQuiz.user.firstname} ${userQuiz.user.lastname}`}
+                                    </Link>
+                                </td>
+                            ) : (
+                                ''
+                            )}
                             <td>
-                                <Link to={`/user/view/${userQuiz.user.id}`}>{userQuiz.user.id}</Link>
-                            </td>
-                            <td>
-                                <Link to={`/quiz/view/${userQuiz.quiz.id}`}>{userQuiz.quiz.id}</Link>
+                                <Link to={`/quiz/view/${userQuiz.quiz.id}`}>{userQuiz.quiz.name}</Link>
                             </td>
                             <td>
                                 <ButtonLink to={`/userQuiz/view/${userQuiz.id}`}>View</ButtonLink>

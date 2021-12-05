@@ -74,15 +74,16 @@ export const Table = styled.table`
     }
 
     @media only screen and (max-width: 768px) {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
         a {
-            width: calc(100% - 15px);
             text-align: center;
             margin-bottom: 5px;
         }
 
         .delete-button {
             text-align: center;
-            width: calc(100% - 10px);
         }
     }
 `;
