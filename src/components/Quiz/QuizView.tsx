@@ -37,7 +37,7 @@ export const QuizView = () => {
                     <span>{quiz?.image_url ? quiz?.image_url : '-'}</span>
                 </ViewInfo>
             </ViewContainer>
-            <UserQuizList userQuizzes={userQuizzes} title={<h2>Quiz attempts</h2>} />
+            <UserQuizList userQuizzes={userQuizzes} title={<h2>Quiz attempts</h2>} dontShow={['quiz']} />
         </>
     );
 };

@@ -35,7 +35,7 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
                         <th>rating</th>
                         <th>score</th>
                         {!dontShow?.includes('user') ? <th>user</th> : ''}
-                        <th>quiz</th>
+                        {!dontShow?.includes('quiz') ? <th>quiz</th> : ''}
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -55,9 +55,13 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
                             ) : (
                                 ''
                             )}
-                            <td>
-                                <Link to={`/quiz/view/${userQuiz.quiz.id}`}>{userQuiz.quiz.name}</Link>
-                            </td>
+                            {!dontShow?.includes('quiz') ? (
+                                <td>
+                                    <Link to={`/quiz/view/${userQuiz.quiz.id}`}>{userQuiz.quiz.name}</Link>
+                                </td>
+                            ) : (
+                                ''
+                            )}
                             <td>
                                 <ButtonLink to={`/userQuiz/view/${userQuiz.id}`}>View</ButtonLink>
                                 <ButtonLink to={`/userQuiz/edit/${userQuiz.id}`}>Edit</ButtonLink>

@@ -50,9 +50,14 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                 </div>
                 <div>
                     <label>User</label>
-                    <select>
+                    <select title="user option">
+                        <option value="">Select your option</option>
                         {users.map((user) => (
-                            <option key={`user-${user.id}`} value={user.id}>
+                            <option
+                                key={`user-${user.id}`}
+                                value={user.id}
+                                selected={type === UserQuizFormTypes.edit && user.id === userQuiz?.user.id}
+                            >
                                 {`${user.firstname} ${user.lastname}`}
                             </option>
                         ))}
@@ -60,9 +65,14 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                 </div>
                 <div>
                     <label>Quiz</label>
-                    <select>
+                    <select title="quiz option">
+                        <option value="">Select your option</option>
                         {quizzes.map((quiz) => (
-                            <option key={`quiz-${quiz.id}`} value={quiz.id}>
+                            <option
+                                key={`quiz-${quiz.id}`}
+                                value={quiz.id}
+                                selected={type === UserQuizFormTypes.edit && quiz.id === userQuiz?.quiz.id}
+                            >
                                 {`${quiz.name}`}
                             </option>
                         ))}

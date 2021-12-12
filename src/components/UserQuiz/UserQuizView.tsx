@@ -39,13 +39,15 @@ export const UserQuizView = () => {
                 <ViewInfo>
                     <span>User</span>
                     <span>
-                        <Link to={`/quiz/view/${userQuiz?.user.id}`}>{userQuiz?.user.id}</Link>
+                        <Link
+                            to={`/quiz/view/${userQuiz?.user.id}`}
+                        >{`${userQuiz?.user.firstname} ${userQuiz?.user.lastname}`}</Link>
                     </span>
                 </ViewInfo>
                 <ViewInfo>
                     <span>Quiz</span>
                     <span>
-                        <Link to={`/quiz/view/${userQuiz?.quiz.id}`}>{userQuiz?.quiz.id}</Link>
+                        <Link to={`/quiz/view/${userQuiz?.quiz.id}`}>{userQuiz?.quiz.name}</Link>
                     </span>
                 </ViewInfo>
             </ViewContainer>
