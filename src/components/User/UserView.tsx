@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { userQuizzes, users } from '../../dummyData';
 import { ButtonLink, ViewContainer, ViewInfo } from '../../App.styled';
 import { User } from '../../models/User';
 import { UserQuizList } from '../UserQuiz';
 import { api } from '../../api';
-import { Quiz } from '../../models/Quiz';
 import { UserQuiz } from '../../models/UserQuiz';
 
 interface UserViewUrlParams {

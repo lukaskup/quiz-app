@@ -11,7 +11,13 @@ export const api = {
     getUser: async (id: string) => {
         return (await axios.get(`${apiUrl}users/${id}`)).data;
     },
-    updateUser: async (id: string, body: User) => {
-        console.log(id);
+    updateUser: async (body: User) => {
+        return (await axios.patch(`${apiUrl}users`, body)).data;
+    },
+    addUser: async (body: User) => {
+        return (await axios.post(`${apiUrl}users`, body)).data;
+    },
+    deleteUser: async (id: string) => {
+        return (await axios.delete(`${apiUrl}users/${id}`)).data;
     },
 };

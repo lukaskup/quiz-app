@@ -23,6 +23,16 @@ export const UserList = ({ title }: QuizListProps) => {
         });
     }, []);
 
+    const handleDelete = () => {
+        if (activeDeleteUser) {
+            api.deleteUser(activeDeleteUser._id).then(() => {
+                setUsers(users.filter((user) => user._id !== activeDeleteUser._id));
+                setActiveDeleteUser(null);
+                deleteModalState.setIsOpen(false);
+            });
+        }
+    };
+
     return (
         <>
             {title ? title : <h1 style={{ display: 'inline-block' }}>Users list</h1>}
@@ -79,7 +89,9 @@ export const UserList = ({ title }: QuizListProps) => {
                         </ModalTitle>
                         <ModalContent>Are you sure u want to delete user {activeDeleteUser?._id}?</ModalContent>
                         <ModalButtons>
-                            <Button style={{ float: 'right', background: 'red' }}>Yes, delete!</Button>
+                            <Button style={{ float: 'right', background: 'red' }} onClick={handleDelete}>
+                                Yes, delete!
+                            </Button>
                             <Button style={{ float: 'right' }}>Nope!</Button>
                         </ModalButtons>
                     </>
