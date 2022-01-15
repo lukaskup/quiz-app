@@ -4,6 +4,9 @@ import { userQuizzes, users } from '../../dummyData';
 import { ButtonLink, ViewContainer, ViewInfo } from '../../App.styled';
 import { User } from '../../models/User';
 import { UserQuizList } from '../UserQuiz';
+import { api } from '../../api';
+import { Quiz } from '../../models/Quiz';
+import { UserQuiz } from '../../models/UserQuiz';
 
 interface UserViewUrlParams {
     id: string;
@@ -11,17 +14,19 @@ interface UserViewUrlParams {
 
 export const UserView = () => {
     const [user, setUser] = useState<User | null>(null);
+    const [userQuizes, setUserQuizes] = useState<UserQuiz[]>([]);
     const { id }: UserViewUrlParams = useParams();
-    useEffect(() => {
-        const activeUser = users.find((quiz) => quiz.id === parseInt(id));
-        setUser(activeUser ? activeUser : null);
-    }, []);
 
-    const userTakenQuizzes = userQuizzes.filter((x) => x.user.id === user?.id);
+    useEffect(() => {
+        api.getUser(id).then((data) => {
+            setUser(data['user']);
+            setUserQuizes(data['quizes']);
+        });
+    }, []);
 
     return (
         <>
-            <h1 style={{ display: 'inline-block' }}>User {user?.id} view</h1>
+            <h1 style={{ display: 'inline-block' }}>User {user?._id} view</h1>
             <ButtonLink to={`/user/edit/${id}`} style={{ marginTop: '50px', float: 'right' }}>
                 Edit
             </ButtonLink>
@@ -39,7 +44,7 @@ export const UserView = () => {
                     <span>{user?.email}</span>
                 </ViewInfo>
             </ViewContainer>
-            <UserQuizList userQuizzes={userTakenQuizzes} title={<h2>Quizes taken by user</h2>} dontShow={['user']} />
+            <UserQuizList userQuizzes={userQuizes} title={<h2>Quizes taken by user</h2>} dontShow={['user']} />
         </>
     );
 };

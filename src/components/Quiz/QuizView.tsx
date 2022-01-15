@@ -13,13 +13,13 @@ export const QuizView = () => {
     const [quiz, setQuiz] = useState<Quiz | null>(null);
     const { id }: QuizViewUrlParams = useParams();
     useEffect(() => {
-        const activeQuiz = quizzes.find((quiz) => quiz.id === parseInt(id));
+        const activeQuiz = quizzes.find((quiz) => quiz._id === id);
         setQuiz(activeQuiz ? activeQuiz : null);
     }, []);
 
     return (
         <>
-            <h1 style={{ display: 'inline-block' }}>Quiz {quiz?.id} view</h1>
+            <h1 style={{ display: 'inline-block' }}>Quiz {quiz?._id} view</h1>
             <ButtonLink to={`/quiz/edit/${id}`} style={{ marginTop: '50px', float: 'right' }}>
                 Edit
             </ButtonLink>

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { Table, ButtonIcon, ButtonLink, Button } from '../../App.styled';
 import { ReactSVG } from 'react-svg';
 import TrashIcon from '../../assets/icons/TrashIcon.svg';
@@ -7,15 +7,21 @@ import { ModalButtons, ModalContent, ModalTitle } from '../Modal/Modal.styled';
 import CloseIcon from '../../assets/icons/CloseIcon.svg';
 import { useModalState } from '../Modal/Modal';
 import { User } from '../../models/User';
-
+import { api } from '../../api';
 interface QuizListProps {
-    users: Array<User>;
     title?: ReactElement;
 }
 
-export const UserList = ({ users, title }: QuizListProps) => {
+export const UserList = ({ title }: QuizListProps) => {
     const deleteModalState = useModalState();
     const [activeDeleteUser, setActiveDeleteUser] = useState<User | null>(null);
+    const [users, setUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        api.getUsers().then((data) => {
+            setUsers(data);
+        });
+    }, []);
 
     return (
         <>
@@ -35,16 +41,16 @@ export const UserList = ({ users, title }: QuizListProps) => {
                         <th>Actions</th>
                     </tr>
                 </thead>
-                {users.map((user: User, i: number) => {
+                {users.map((user: User) => {
                     return (
-                        <tr key={`${user.id}-${i}`}>
-                            <td>{user.id}</td>
+                        <tr key={`${user._id}`}>
+                            <td>{user._id}</td>
                             <td>{user.firstname}</td>
                             <td>{user.lastname}</td>
                             <td>{user.email}</td>
                             <td>
-                                <ButtonLink to={`/user/view/${user.id}`}>View</ButtonLink>
-                                <ButtonLink to={`/user/edit/${user.id}`}>Edit</ButtonLink>
+                                <ButtonLink to={`/user/view/${user._id}`}>View</ButtonLink>
+                                <ButtonLink to={`/user/edit/${user._id}`}>Edit</ButtonLink>
                                 <ButtonIcon
                                     className="delete-button"
                                     onClick={() => {
@@ -71,7 +77,7 @@ export const UserList = ({ users, title }: QuizListProps) => {
                                 onClick={() => deleteModalState.setIsOpen(false)}
                             />
                         </ModalTitle>
-                        <ModalContent>Are you sure u want to delete user {activeDeleteUser?.id}?</ModalContent>
+                        <ModalContent>Are you sure u want to delete user {activeDeleteUser?._id}?</ModalContent>
                         <ModalButtons>
                             <Button style={{ float: 'right', background: 'red' }}>Yes, delete!</Button>
                             <Button style={{ float: 'right' }}>Nope!</Button>

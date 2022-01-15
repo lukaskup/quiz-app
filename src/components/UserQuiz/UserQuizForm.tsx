@@ -21,7 +21,7 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
     const [userQuiz, setUserQuiz] = useState<UserQuiz | null>(null);
     const { id }: UserQuizEditUrlParams = useParams();
     useEffect(() => {
-        const activeUserQuiz = userQuizzes.find((userQuiz) => userQuiz.id === parseInt(id));
+        const activeUserQuiz = userQuizzes.find((userQuiz) => userQuiz._id === id);
         setUserQuiz(activeUserQuiz ? activeUserQuiz : null);
     }, []);
 
@@ -29,7 +29,7 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
         <>
             <h1>
                 {type === UserQuizFormTypes.add ? 'Add' : 'Edit'} user-quiz
-                {type === UserQuizFormTypes.edit ? userQuiz?.id : ''}
+                {type === UserQuizFormTypes.edit ? userQuiz?._id : ''}
             </h1>
             <Form>
                 <div>
@@ -54,9 +54,9 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                         <option value="">Select your option</option>
                         {users.map((user) => (
                             <option
-                                key={`user-${user.id}`}
-                                value={user.id}
-                                selected={type === UserQuizFormTypes.edit && user.id === userQuiz?.user.id}
+                                key={`user-${user._id}`}
+                                value={user._id}
+                                selected={type === UserQuizFormTypes.edit && user._id === userQuiz?.user._id}
                             >
                                 {`${user.firstname} ${user.lastname}`}
                             </option>
@@ -69,9 +69,9 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                         <option value="">Select your option</option>
                         {quizzes.map((quiz) => (
                             <option
-                                key={`quiz-${quiz.id}`}
-                                value={quiz.id}
-                                selected={type === UserQuizFormTypes.edit && quiz.id === userQuiz?.quiz.id}
+                                key={`quiz-${quiz._id}`}
+                                value={quiz._id}
+                                selected={type === UserQuizFormTypes.edit && quiz._id === userQuiz?.quiz._id}
                             >
                                 {`${quiz.name}`}
                             </option>

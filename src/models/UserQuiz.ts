@@ -2,7 +2,7 @@ import { User } from './User';
 import { Quiz } from './Quiz';
 
 export interface UserQuiz {
-    id: number;
+    _id: string;
     submitted_at: Date;
     rating?: number;
     score: number;

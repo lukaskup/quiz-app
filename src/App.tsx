@@ -28,7 +28,7 @@ function App() {
                         <Route path="/quiz/add" component={() => <QuizForm type={QuizFormTypes.add} />} />
 
                         {/*user routes*/}
-                        <Route exact path="/user/" component={() => <UserList users={users} />} />
+                        <Route exact path="/user/" component={() => <UserList />} />
                         <Route path="/user/view/:id" component={UserView} />
                         <Route path="/user/edit/:id" component={() => <UserForm type={UserFormTypes.edit} />} />
                         <Route path="/user/add" component={() => <UserForm type={UserFormTypes.add} />} />

@@ -64,6 +64,16 @@ export const Table = styled.table`
             padding: 12px;
             border-bottom: 1px solid #d1d1d1;
             border-collapse: inherit;
+
+            &:nth-child(1) {
+                width: 8em;
+                min-width: 8em;
+                max-width: 8em;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                height: 1.2em;
+                white-space: nowrap;
+            }
         }
 
         :nth-last-child(1) {

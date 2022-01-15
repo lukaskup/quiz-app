@@ -42,13 +42,13 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
                 {userQuizzes.map((userQuiz: UserQuiz, i: number) => {
                     return (
                         <tr key={`${userQuiz}-${i}`}>
-                            <td>{userQuiz.id}</td>
+                            <td>{userQuiz._id}</td>
                             <td>{userQuiz.submitted_at.toLocaleDateString()}</td>
                             <td>{userQuiz.rating ? userQuiz.rating : '-'}</td>
                             <td>{userQuiz.score}</td>
                             {!dontShow?.includes('user') ? (
                                 <td>
-                                    <Link to={`/user/view/${userQuiz.user.id}`}>
+                                    <Link to={`/user/view/${userQuiz.user._id}`}>
                                         {`${userQuiz.user.firstname} ${userQuiz.user.lastname}`}
                                     </Link>
                                 </td>
@@ -57,14 +57,14 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
                             )}
                             {!dontShow?.includes('quiz') ? (
                                 <td>
-                                    <Link to={`/quiz/view/${userQuiz.quiz.id}`}>{userQuiz.quiz.name}</Link>
+                                    <Link to={`/quiz/view/${userQuiz.quiz._id}`}>{userQuiz.quiz.name}</Link>
                                 </td>
                             ) : (
                                 ''
                             )}
                             <td>
-                                <ButtonLink to={`/userQuiz/view/${userQuiz.id}`}>View</ButtonLink>
-                                <ButtonLink to={`/userQuiz/edit/${userQuiz.id}`}>Edit</ButtonLink>
+                                <ButtonLink to={`/userQuiz/view/${userQuiz._id}`}>View</ButtonLink>
+                                <ButtonLink to={`/userQuiz/edit/${userQuiz._id}`}>Edit</ButtonLink>
                                 <ButtonIcon
                                     className="delete-button"
                                     onClick={() => {
@@ -91,7 +91,9 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
                                 onClick={() => deleteModalState.setIsOpen(false)}
                             />
                         </ModalTitle>
-                        <ModalContent>Are you sure u want to delete user-quiz {activeDeleteUserQuiz?.id}?</ModalContent>
+                        <ModalContent>
+                            Are you sure u want to delete user-quiz {activeDeleteUserQuiz?._id}?
+                        </ModalContent>
                         <ModalButtons>
                             <Button style={{ float: 'right', background: 'red' }}>Yes, delete!</Button>
                             <Button style={{ float: 'right' }}>Nope!</Button>

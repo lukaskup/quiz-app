@@ -13,13 +13,13 @@ export const UserQuizView = () => {
     const [userQuiz, setUserQuiz] = useState<UserQuiz | null>(null);
     const { id }: QuizViewUrlParams = useParams();
     useEffect(() => {
-        const activeUserQuiz = userQuizzes.find((userQuiz) => userQuiz.id === parseInt(id));
+        const activeUserQuiz = userQuizzes.find((userQuiz) => userQuiz._id === id);
         setUserQuiz(activeUserQuiz ? activeUserQuiz : null);
     }, []);
 
     return (
         <>
-            <h1 style={{ display: 'inline-block' }}>UserQuiz {userQuiz?.id} view</h1>
+            <h1 style={{ display: 'inline-block' }}>UserQuiz {userQuiz?._id} view</h1>
             <ButtonLink to={`/quiz/edit/${id}`} style={{ marginTop: '50px', float: 'right' }}>
                 Edit
             </ButtonLink>
@@ -40,14 +40,14 @@ export const UserQuizView = () => {
                     <span>User</span>
                     <span>
                         <Link
-                            to={`/quiz/view/${userQuiz?.user.id}`}
+                            to={`/quiz/view/${userQuiz?.user._id}`}
                         >{`${userQuiz?.user.firstname} ${userQuiz?.user.lastname}`}</Link>
                     </span>
                 </ViewInfo>
                 <ViewInfo>
                     <span>Quiz</span>
                     <span>
-                        <Link to={`/quiz/view/${userQuiz?.quiz.id}`}>{userQuiz?.quiz.name}</Link>
+                        <Link to={`/quiz/view/${userQuiz?.quiz._id}`}>{userQuiz?.quiz.name}</Link>
                     </span>
                 </ViewInfo>
             </ViewContainer>

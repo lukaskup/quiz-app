@@ -21,14 +21,14 @@ export const QuizForm = ({ type }: QuizFormProps) => {
     const [quiz, setQuiz] = useState<Quiz | null>(null);
     const { id }: QuizEditUrlParams = useParams();
     useEffect(() => {
-        const activeQuiz = quizzes.find((quiz) => quiz.id === parseInt(id));
+        const activeQuiz = quizzes.find((quiz) => quiz._id === id);
         setQuiz(activeQuiz ? activeQuiz : null);
     }, []);
 
     return (
         <>
             <h1>
-                {type === QuizFormTypes.add ? 'Add' : 'Edit'} quiz {type === QuizFormTypes.edit ? quiz?.id : ''}
+                {type === QuizFormTypes.add ? 'Add' : 'Edit'} quiz {type === QuizFormTypes.edit ? quiz?._id : ''}
             </h1>
             <Form>
                 <div>

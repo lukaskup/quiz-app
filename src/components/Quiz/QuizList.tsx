@@ -38,13 +38,13 @@ export const QuizList = ({ quizzes }: QuizListProps) => {
                 {quizzes.map((quiz: Quiz, i: number) => {
                     return (
                         <tr key={`${quiz}-${i}`}>
-                            <td>{quiz.id}</td>
+                            <td>{quiz._id}</td>
                             <td>{quiz.name}</td>
                             <td>{quiz.description}</td>
                             <td>{quiz.image_url ? quiz.image_url : '-'}</td>
                             <td>
-                                <ButtonLink to={`/quiz/view/${quiz.id}`}>View</ButtonLink>
-                                <ButtonLink to={`/quiz/edit/${quiz.id}`}>Edit</ButtonLink>
+                                <ButtonLink to={`/quiz/view/${quiz._id}`}>View</ButtonLink>
+                                <ButtonLink to={`/quiz/edit/${quiz._id}`}>Edit</ButtonLink>
                                 <ButtonIcon
                                     className="delete-button"
                                     onClick={() => {
@@ -71,7 +71,7 @@ export const QuizList = ({ quizzes }: QuizListProps) => {
                                 onClick={() => deleteModalState.setIsOpen(false)}
                             />
                         </ModalTitle>
-                        <ModalContent>Are you sure u want to delete quiz {activeDeleteQuiz?.id}?</ModalContent>
+                        <ModalContent>Are you sure u want to delete quiz {activeDeleteQuiz?._id}?</ModalContent>
                         <ModalButtons>
                             <Button style={{ float: 'right', background: 'red' }}>Yes, delete!</Button>
                             <Button style={{ float: 'right' }}>Nope!</Button>
