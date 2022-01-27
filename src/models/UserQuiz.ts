@@ -6,6 +6,15 @@ export interface UserQuiz {
     submitted_at: Date;
     rating?: number;
     score: number;
-    user: User;
-    quiz: Quiz;
+    user: User | null;
+    quiz: Quiz | null;
+}
+
+export interface UserQuizDTO {
+    _id?: string;
+    submitted_at: Date;
+    rating?: number;
+    score: number;
+    user: string | undefined;
+    quiz: string | undefined;
 }

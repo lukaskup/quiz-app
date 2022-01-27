@@ -61,6 +61,7 @@ export const Table = styled.table`
 
         td,
         th {
+            max-width: 300px;
             padding: 12px;
             border-bottom: 1px solid #d1d1d1;
             border-collapse: inherit;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button } from '../../App.styled';
+import { Form, Button, InfoBadge } from '../../App.styled';
 import { Redirect, useParams } from 'react-router';
 import { User } from '../../models/User';
 import { api } from '../../api';
@@ -26,8 +26,11 @@ export const UserForm = ({ type }: UserFormProps) => {
         lastname: '',
         password: '',
     });
+
     const [redirect, setRedirect] = useState<boolean>(false);
+
     const { id }: UserEditUrlParams = useParams();
+
     useEffect(() => {
         if (id) {
             api.getUser(id).then((data) => {
@@ -37,26 +40,64 @@ export const UserForm = ({ type }: UserFormProps) => {
             });
         }
     }, []);
-    const { isRequired, errors } = useFormValidation();
-
-    const validate = (user: User) => {
-        isRequired(user.firstname, 'You must provide firstname');
-    };
 
     const handleSubmit = () => {
         if (user) {
-            validate(user);
-            if (errors.length > 0) return;
-            if (type === UserFormTypes.edit) {
+            if (type === UserFormTypes.edit && user._id) {
                 api.updateUser(user).then(() => {
                     setRedirect(true);
                 });
-            } else {
+            } else if (user.firstname) {
                 api.addUser(user).then(() => {
                     setRedirect(true);
                 });
             }
         }
+    };
+
+    const { isRequired, minMax, checkEmail, validateField, errors, setErrors } = useFormValidation(handleSubmit);
+
+    const messages = {
+        firstnameRequired: 'please provide correct first name',
+        firstnameMinMax: 'firstname should have length between 3 and 20',
+        lastnameRequired: 'please provide correct lastname',
+        emailRequired: 'please provide correct email',
+        passwordRequired: 'please provide correct password',
+        passwordMinMax: 'password should have length between 8 and 60',
+    };
+
+    const validate = (user: User) => {
+        const errors: string[] = [];
+        //firstname
+        if (!isRequired(user.firstname)) {
+            errors.push(messages.firstnameRequired);
+        }
+        if (!minMax(user.firstname, 3, 20)) {
+            errors.push(messages.firstnameMinMax);
+        }
+
+        //lastname
+        if (!isRequired(user.lastname)) {
+            errors.push(messages.lastnameRequired);
+        }
+
+        //email
+        if (!isRequired(user.email)) {
+            errors.push(messages.emailRequired);
+        }
+        if (!checkEmail(user.email)) {
+            errors.push(messages.emailRequired);
+        }
+
+        //password
+        if (!isRequired(user.password)) {
+            errors.push(messages.passwordRequired);
+        }
+        if (!minMax(user.password, 8, 60)) {
+            errors.push(messages.passwordMinMax);
+        }
+
+        setErrors(errors);
     };
 
     if (redirect) {
@@ -121,17 +162,15 @@ export const UserForm = ({ type }: UserFormProps) => {
                         }}
                     />
                 </div>
-                {errors &&
-                    errors.map((error) => (
-                        <div className="error" key={error}>
-                            {error}
-                        </div>
-                    ))}
+                {errors.length > 0 && <InfoBadge className="error">{errors[errors.length - 1]}</InfoBadge>}
                 <Button
                     type={'submit'}
                     onClick={(e) => {
                         e.preventDefault();
-                        handleSubmit();
+                        setErrors([...errors]);
+                        if (user) {
+                            validate(user);
+                        }
                     }}
                 >
                     Save

@@ -6,7 +6,7 @@ import { Container } from './App.styled';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
 import { QuizForm, QuizFormTypes } from './components/Quiz/QuizForm';
-import { quizzes, userQuizzes } from './dummyData';
+import { userQuizzes } from './dummyData';
 import { UserForm, UserList, UserView } from './components/User';
 import { UserQuizForm, UserQuizList, UserQuizView } from './components/UserQuiz';
 import { UserFormTypes } from './components/User/UserForm';
@@ -22,7 +22,7 @@ function App() {
                         <Redirect exact from="/" to="/quiz/" />
 
                         {/*quiz routes*/}
-                        <Route exact path="/quiz/" component={() => <QuizList quizzes={quizzes} />} />
+                        <Route exact path="/quiz/" component={() => <QuizList />} />
                         <Route path="/quiz/view/:id" component={QuizView} />
                         <Route path="/quiz/edit/:id" component={() => <QuizForm type={QuizFormTypes.edit} />} />
                         <Route path="/quiz/add" component={() => <QuizForm type={QuizFormTypes.add} />} />
@@ -34,7 +34,7 @@ function App() {
                         <Route path="/user/add" component={() => <UserForm type={UserFormTypes.add} />} />
 
                         {/*userQuiz routes*/}
-                        <Route exact path="/userQuiz/" component={() => <UserQuizList userQuizzes={userQuizzes} />} />
+                        <Route exact path="/userQuiz/" component={() => <UserQuizList />} />
                         <Route path="/userQuiz/view/:id" component={UserQuizView} />
                         <Route
                             path="/userQuiz/edit/:id"

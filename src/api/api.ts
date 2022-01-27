@@ -1,8 +1,10 @@
+import { UserQuizDTO } from './../models/UserQuiz';
+import { Quiz } from './../models/Quiz';
 import { User } from './../models/User';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_API_URL;
-console.log(apiUrl);
+
 export const api = {
     //users
     getUsers: async () => {
@@ -19,5 +21,39 @@ export const api = {
     },
     deleteUser: async (id: string) => {
         return (await axios.delete(`${apiUrl}users/${id}`)).data;
+    },
+
+    //quizes
+    getQuizes: async () => {
+        return (await axios.get(`${apiUrl}quizes`)).data;
+    },
+    getQuiz: async (id: string) => {
+        return (await axios.get(`${apiUrl}quizes/${id}`)).data;
+    },
+    updateQuiz: async (body: Quiz) => {
+        return (await axios.patch(`${apiUrl}quizes`, body)).data;
+    },
+    addQuiz: async (body: Quiz) => {
+        return (await axios.post(`${apiUrl}quizes`, body)).data;
+    },
+    deleteQuiz: async (id: string) => {
+        return (await axios.delete(`${apiUrl}quizes/${id}`)).data;
+    },
+
+    //userQuizes
+    getUserQuizes: async () => {
+        return (await axios.get(`${apiUrl}usersQuizes`)).data;
+    },
+    getUserQuiz: async (id: string) => {
+        return (await axios.get(`${apiUrl}usersQuizes/${id}`)).data;
+    },
+    updateUserQuiz: async (body: UserQuizDTO) => {
+        return (await axios.patch(`${apiUrl}usersQuizes`, body)).data;
+    },
+    addUserQuiz: async (body: UserQuizDTO) => {
+        return (await axios.post(`${apiUrl}usersQuizes`, body)).data;
+    },
+    deleteUserQuiz: async (id: string) => {
+        return (await axios.delete(`${apiUrl}usersQuizes/${id}`)).data;
     },
 };
