@@ -89,10 +89,15 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
         userRequired: 'pleasae select user',
         quizRequired: 'please select quiz',
         scoreRequired: 'score should be between 1 and 10',
+        ratingRequired: 'rating should be between 1 and 10',
     };
 
     const validate = (userQuiz: UserQuiz) => {
         const errors: string[] = [];
+        //rating
+        if (userQuiz.rating && !(userQuiz.rating >= 1 && userQuiz.rating <= 10)) {
+            errors.push(messages.ratingRequired);
+        }
         //score
         if (!(userQuiz.score >= 1 && userQuiz.score <= 10)) {
             errors.push(messages.scoreRequired);
@@ -110,7 +115,7 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
     };
 
     if (redirect) {
-        return <Redirect to="/userQuiz" />;
+        return <Redirect to={`/userQuiz${type === UserQuizFormTypes.edit ? '?success=edit' : '?success=add'}`} />;
     }
 
     const toDateInputValue = (date: Date) => {

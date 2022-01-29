@@ -105,7 +105,7 @@ export const UserForm = ({ type }: UserFormProps) => {
     };
 
     if (redirect) {
-        return <Redirect to="/user" />;
+        return <Redirect to={`/user${type === UserFormTypes.edit ? '?success=edit' : '?success=add'}`} />;
     }
 
     return (

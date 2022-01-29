@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, useEffect } from 'react';
-import { Table, ButtonIcon, ButtonLink, Button } from '../../App.styled';
+import { Table, ButtonIcon, ButtonLink, Button, InfoBadge } from '../../App.styled';
 import { ReactSVG } from 'react-svg';
 import TrashIcon from '../../assets/icons/TrashIcon.svg';
 import { Modal } from '../Modal';
@@ -8,6 +8,7 @@ import CloseIcon from '../../assets/icons/CloseIcon.svg';
 import { useModalState } from '../Modal/Modal';
 import { User } from '../../models/User';
 import { api } from '../../api';
+import { useInfoBadge } from '../../hooks/useInfoBadge';
 interface QuizListProps {
     title?: ReactElement;
 }
@@ -29,12 +30,25 @@ export const UserList = ({ title }: QuizListProps) => {
                 setUsers(users.filter((user) => user._id !== activeDeleteUser._id));
                 setActiveDeleteUser(null);
                 deleteModalState.setIsOpen(false);
+                document.location.search = '';
+                document.location.search = '?success=delete';
             });
         }
     };
 
+    const { showInfoBadge } = useInfoBadge();
+
     return (
         <>
+            {showInfoBadge === 'add' && (
+                <InfoBadge className={'success'}>Successfully added user to database! :)</InfoBadge>
+            )}
+            {showInfoBadge === 'edit' && (
+                <InfoBadge className={'success'}>Successfully updated user in database! :)</InfoBadge>
+            )}
+            {showInfoBadge === 'delete' && (
+                <InfoBadge className={'success'}>Successfully deleted user from database! :)</InfoBadge>
+            )}
             {title ? title : <h1 style={{ display: 'inline-block' }}>Users list</h1>}
             {!title && (
                 <ButtonLink to="/user/add" style={{ marginTop: '50px', float: 'right' }}>

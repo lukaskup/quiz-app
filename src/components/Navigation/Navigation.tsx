@@ -5,10 +5,17 @@ import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 import Logo from '../../assets/imgs/logo.svg';
 import HamburgerIcon from '../../assets/icons/HamburgerIcon.svg';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n';
 
 export const Navigation = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+    // eslint-disable-next-line
+    const langChange = (e: any) => {
+        i18n.changeLanguage(e.target.value);
+    };
 
+    const { t } = useTranslation();
     return (
         <NavigationContainer>
             <Container>
@@ -17,9 +24,13 @@ export const Navigation = () => {
                     <span>Quizyzz</span>
                 </Link>
                 <div className={'navi-links'}>
-                    <Link to={'/quiz'}>quizzes</Link>
-                    <Link to={'/user'}>users</Link>
-                    <Link to={'/userQuiz'}>userQuizzes</Link>
+                    <Link to={'/quiz'}>{t('navigation.quizzes')}</Link>
+                    <Link to={'/user'}>{t('navigation.users')}</Link>
+                    <Link to={'/userQuiz'}>{t('navigation.userQuizzes')}</Link>
+                    <select name="lang" id="lang" onChange={langChange}>
+                        <option value="en">{t('english')}</option>
+                        <option value="pl">{t('polish')}</option>
+                    </select>
                 </div>
                 <div className={'mobile-menu'}>
                     <ReactSVG
@@ -30,9 +41,13 @@ export const Navigation = () => {
                     />
                 </div>
                 <div className={`mobile-drawer ${isMobileMenuOpen ? 'open' : ''}`}>
-                    <Link to={'/quiz'}>quizzes</Link>
-                    <Link to={'/user'}>users</Link>
-                    <Link to={'/userQuiz'}>userQuizzes</Link>
+                    <Link to={'/quiz'}>{t('navigation.quizzes')}</Link>
+                    <Link to={'/user'}>{t('navigation.users')}</Link>
+                    <Link to={'/userQuiz'}>{t('navigation.userQuizzes')}</Link>
+                    <select name="lang" id="lang" value={i18n.language}>
+                        <option value="en">{t('english')}</option>
+                        <option value="pl">{t('polish')}</option>
+                    </select>
                 </div>
             </Container>
         </NavigationContainer>

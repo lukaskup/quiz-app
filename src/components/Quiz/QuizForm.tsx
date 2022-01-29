@@ -4,6 +4,7 @@ import { Quiz } from '../../models/Quiz';
 import { useParams, Redirect } from 'react-router';
 import { api } from '../../api';
 import { useFormValidation } from '../../hooks/useFormValidation';
+import { useTranslation } from 'react-i18next';
 
 export enum QuizFormTypes {
     edit = 'edit',
@@ -29,10 +30,10 @@ export const QuizForm = ({ type }: QuizFormProps) => {
     const isClientValidation = Boolean(process.env.CLIENT_VALIDATION);
     const { id }: QuizEditUrlParams = useParams();
     const [redirect, setRedirect] = useState<boolean>(false);
+    const { t } = useTranslation();
     useEffect(() => {
         if (id) {
             api.getQuiz(id).then((data) => {
-                console.log(data);
                 if (data['quiz']) {
                     setQuiz(data['quiz']);
                 }
@@ -43,17 +44,20 @@ export const QuizForm = ({ type }: QuizFormProps) => {
     const handleSubmit = () => {
         if (quiz) {
             if (type === QuizFormTypes.edit && quiz._id) {
-                api.updateQuiz(quiz).then(() => {
-                    setRedirect(true);
-                });
+                api.updateQuiz(quiz)
+                    .then(() => {
+                        setRedirect(true);
+                    })
+                    .catch((e) => {
+                        setErrors(e.response.data);
+                    });
             } else if (quiz.name || (!isClientValidation && isSubmitted)) {
-                console.log('send addQuiz');
                 api.addQuiz(quiz)
                     .then(() => {
                         setRedirect(true);
                     })
                     .catch((e) => {
-                        console.log(e);
+                        setErrors(e.response.data);
                     });
             }
         }
@@ -89,17 +93,18 @@ export const QuizForm = ({ type }: QuizFormProps) => {
     };
 
     if (redirect) {
-        return <Redirect to="/quiz" />;
+        return <Redirect to={`/quiz${type === QuizFormTypes.edit ? '?success=edit' : '?success=add'}`} />;
     }
 
     return (
         <>
             <h1>
-                {type === QuizFormTypes.add ? 'Add' : 'Edit'} quiz {type === QuizFormTypes.edit ? quiz?._id : ''}
+                {type === QuizFormTypes.add ? t('buttons.add') : t('buttons.edit')} {t('quizView.quiz')}{' '}
+                {type === QuizFormTypes.edit ? quiz?._id : ''}
             </h1>
             <Form>
                 <div>
-                    <label>Name</label>
+                    <label>{t('quizTable.name')}</label>
                     <input
                         type="text"
                         placeholder={'name'}
@@ -112,7 +117,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                     />
                 </div>
                 <div>
-                    <label>Description</label>
+                    <label>{t('quizTable.description')}</label>
                     <input
                         type="text"
                         placeholder={'description'}
@@ -125,7 +130,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                     />
                 </div>
                 <div>
-                    <label>Image url</label>
+                    <label>{t('quizTable.imageUrl')}</label>
                     <input
                         type="text"
                         placeholder={'image url'}
@@ -149,7 +154,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                         }
                     }}
                 >
-                    Save
+                    {t('buttons.save')}
                 </Button>
             </Form>
         </>

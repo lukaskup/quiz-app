@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import { QuizList, QuizView } from './components/Quiz';
-import { Navigation } from './components/Navigation';
+import { Navigation } from './components/Navigation/Navigation';
 import { Container } from './App.styled';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
@@ -10,6 +9,8 @@ import { UserForm, UserList, UserView } from './components/User';
 import { UserQuizForm, UserQuizList, UserQuizView } from './components/UserQuiz';
 import { UserFormTypes } from './components/User/UserForm';
 import { UserQuizFormTypes } from './components/UserQuiz/UserQuizForm';
+import { QuizView, QuizList } from './components/Quiz';
+import '../src/i18n';
 
 function App() {
     return (
