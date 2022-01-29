@@ -6,7 +6,6 @@ import { Container } from './App.styled';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme';
 import { QuizForm, QuizFormTypes } from './components/Quiz/QuizForm';
-import { userQuizzes } from './dummyData';
 import { UserForm, UserList, UserView } from './components/User';
 import { UserQuizForm, UserQuizList, UserQuizView } from './components/UserQuiz';
 import { UserFormTypes } from './components/User/UserForm';

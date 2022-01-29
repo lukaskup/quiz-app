@@ -17,13 +17,10 @@ export const QuizView = () => {
 
     useEffect(() => {
         api.getQuiz(id).then((data) => {
-            console.log(data);
-
             setQuiz(data['quiz']);
-            setUserQuizes(data['userQuizes'].length === 0 ? null : data['usersQuizes']);
+            setUserQuizes(data['userQuizes'].length === 0 ? null : data['userQuizes']);
         });
     }, []);
-
     return (
         <>
             <h1 style={{ display: 'inline-block' }}>Quiz {quiz?._id} view</h1>

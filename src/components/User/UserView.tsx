@@ -12,13 +12,13 @@ interface UserViewUrlParams {
 
 export const UserView = () => {
     const [user, setUser] = useState<User | null>(null);
-    const [userQuizes, setUserQuizes] = useState<UserQuiz[]>([]);
+    const [userQuizes, setUserQuizes] = useState<UserQuiz[] | null>([]);
     const { id }: UserViewUrlParams = useParams();
 
     useEffect(() => {
         api.getUser(id).then((data) => {
             setUser(data['user']);
-            setUserQuizes(data['quizes']);
+            setUserQuizes(data['userQuizes']);
         });
     }, []);
 
@@ -42,7 +42,11 @@ export const UserView = () => {
                     <span>{user?.email}</span>
                 </ViewInfo>
             </ViewContainer>
-            <UserQuizList userQuizzes={userQuizes} title={<h2>Quizes taken by user</h2>} dontShow={['user']} />
+            <UserQuizList
+                userQuizzes={userQuizes !== null ? userQuizes : []}
+                title={<h2>Quizes taken by user</h2>}
+                dontShow={['user']}
+            />
         </>
     );
 };

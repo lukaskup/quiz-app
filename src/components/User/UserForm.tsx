@@ -48,14 +48,18 @@ export const UserForm = ({ type }: UserFormProps) => {
                     setRedirect(true);
                 });
             } else if (user.firstname) {
-                api.addUser(user).then(() => {
-                    setRedirect(true);
-                });
+                api.addUser(user)
+                    .then(() => {
+                        setRedirect(true);
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
             }
         }
     };
 
-    const { isRequired, minMax, checkEmail, validateField, errors, setErrors } = useFormValidation(handleSubmit);
+    const { isRequired, minMax, checkEmail, errors, setErrors } = useFormValidation(handleSubmit);
 
     const messages = {
         firstnameRequired: 'please provide correct first name',

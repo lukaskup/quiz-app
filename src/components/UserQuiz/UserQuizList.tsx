@@ -24,12 +24,14 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
     );
 
     useEffect(() => {
-        if (userQuizzes !== null) {
+        if (userQuizzes == null) {
             api.getUserQuizes().then((data) => {
                 setUserQuizes(data['userQuizes']);
             });
+        } else {
+            setUserQuizes(userQuizzes);
         }
-    }, []);
+    }, [userQuizzes]);
 
     const handleDelete = () => {
         if (activeDeleteUserQuiz) {

@@ -25,6 +25,8 @@ export const QuizForm = ({ type }: QuizFormProps) => {
         description: '',
         image_url: '',
     });
+    const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+    const isClientValidation = Boolean(process.env.CLIENT_VALIDATION);
     const { id }: QuizEditUrlParams = useParams();
     const [redirect, setRedirect] = useState<boolean>(false);
     useEffect(() => {
@@ -44,15 +46,20 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                 api.updateQuiz(quiz).then(() => {
                     setRedirect(true);
                 });
-            } else if (quiz.name) {
-                api.addQuiz(quiz).then(() => {
-                    setRedirect(true);
-                });
+            } else if (quiz.name || (!isClientValidation && isSubmitted)) {
+                console.log('send addQuiz');
+                api.addQuiz(quiz)
+                    .then(() => {
+                        setRedirect(true);
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
             }
         }
     };
 
-    const { isRequired, minMax, validateField, errors, setErrors } = useFormValidation(handleSubmit);
+    const { isRequired, minMax, errors, setErrors } = useFormValidation(handleSubmit);
 
     const messages = {
         nameRequired: 'please provide correct name',
@@ -62,17 +69,20 @@ export const QuizForm = ({ type }: QuizFormProps) => {
 
     const validate = (quiz: Quiz) => {
         const errors: string[] = [];
-        //name
-        if (!isRequired(quiz.name)) {
-            errors.push(messages.nameRequired);
-        }
-        if (!minMax(quiz.name, 3, 20)) {
-            errors.push(messages.nameMinMax);
-        }
 
-        //description
-        if (!isRequired(quiz.description)) {
-            errors.push(messages.descriptionRequired);
+        if (isClientValidation) {
+            //name
+            if (!isRequired(quiz.name)) {
+                errors.push(messages.nameRequired);
+            }
+            if (!minMax(quiz.name, 3, 20)) {
+                errors.push(messages.nameMinMax);
+            }
+
+            //description
+            if (!isRequired(quiz.description)) {
+                errors.push(messages.descriptionRequired);
+            }
         }
 
         setErrors(errors);
@@ -132,6 +142,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                     type={'submit'}
                     onClick={(e) => {
                         e.preventDefault();
+                        setIsSubmitted(true);
                         setErrors([...errors]);
                         if (quiz) {
                             validate(quiz);

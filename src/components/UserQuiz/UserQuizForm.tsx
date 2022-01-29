@@ -82,7 +82,7 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
         }
     };
 
-    const { validateField, errors, setErrors } = useFormValidation(handleSubmit);
+    const { errors, setErrors } = useFormValidation(handleSubmit);
 
     const messages = {
         submittedAtRequired: 'please provide submitted at',
