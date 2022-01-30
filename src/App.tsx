@@ -10,6 +10,8 @@ import { UserQuizForm, UserQuizList, UserQuizView } from './components/UserQuiz'
 import { UserFormTypes } from './components/User/UserForm';
 import { UserQuizFormTypes } from './components/UserQuiz/UserQuizForm';
 import { QuizView, QuizList } from './components/Quiz';
+import { LoginForm, RegisterForm } from './components/Auth';
+
 import '../src/i18n';
 
 function App() {
@@ -41,6 +43,9 @@ function App() {
                             component={() => <UserQuizForm type={UserQuizFormTypes.edit} />}
                         />
                         <Route path="/userQuiz/add" component={() => <UserQuizForm type={UserQuizFormTypes.add} />} />
+                        {/*auth*/}
+                        <Route path="/register" component={() => <RegisterForm />} />
+                        <Route path="/login" component={() => <LoginForm />} />
                     </Switch>
                 </Container>
             </ThemeProvider>

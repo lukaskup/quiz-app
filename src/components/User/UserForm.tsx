@@ -4,6 +4,7 @@ import { Redirect, useParams } from 'react-router';
 import { User } from '../../models/User';
 import { api } from '../../api';
 import { useFormValidation } from '../../hooks/useFormValidation';
+import { useTranslation } from 'react-i18next';
 
 export enum UserFormTypes {
     edit = 'edit',
@@ -28,9 +29,9 @@ export const UserForm = ({ type }: UserFormProps) => {
     });
 
     const [redirect, setRedirect] = useState<boolean>(false);
-
+    const isClientValidation = Boolean(process.env.REACT_APP_CLIENT_VALIDATION);
     const { id }: UserEditUrlParams = useParams();
-
+    const { t } = useTranslation();
     useEffect(() => {
         if (id) {
             api.getUser(id).then((data) => {
@@ -44,9 +45,13 @@ export const UserForm = ({ type }: UserFormProps) => {
     const handleSubmit = () => {
         if (user) {
             if (type === UserFormTypes.edit && user._id) {
-                api.updateUser(user).then(() => {
-                    setRedirect(true);
-                });
+                api.updateUser(user)
+                    .then(() => {
+                        setRedirect(true);
+                    })
+                    .catch((e) => {
+                        setErrors(e.response.data.map((error: string) => t(error)));
+                    });
             } else if (user.firstname) {
                 api.addUser(user)
                     .then(() => {
@@ -62,43 +67,45 @@ export const UserForm = ({ type }: UserFormProps) => {
     const { isRequired, minMax, checkEmail, errors, setErrors } = useFormValidation(handleSubmit);
 
     const messages = {
-        firstnameRequired: 'please provide correct first name',
-        firstnameMinMax: 'firstname should have length between 3 and 20',
-        lastnameRequired: 'please provide correct lastname',
-        emailRequired: 'please provide correct email',
-        passwordRequired: 'please provide correct password',
-        passwordMinMax: 'password should have length between 8 and 60',
+        firstnameRequired: t('validationMessages.firstnameRequired'),
+        firstnameMinMax: t('validationMessages.firstnameMinMax'),
+        lastnameRequired: t('validationMessages.lastnameRequired'),
+        emailRequired: t('validationMessages.emailRequired'),
+        passwordRequired: t('validationMessages.passwordRequired'),
+        passwordMinMax: t('validationMessages.passwordMinMax'),
     };
 
     const validate = (user: User) => {
         const errors: string[] = [];
-        //firstname
-        if (!isRequired(user.firstname)) {
-            errors.push(messages.firstnameRequired);
-        }
-        if (!minMax(user.firstname, 3, 20)) {
-            errors.push(messages.firstnameMinMax);
-        }
+        if (isClientValidation) {
+            //firstname
+            if (!isRequired(user.firstname)) {
+                errors.push(messages.firstnameRequired);
+            }
+            if (!minMax(user.firstname, 3, 20)) {
+                errors.push(messages.firstnameMinMax);
+            }
 
-        //lastname
-        if (!isRequired(user.lastname)) {
-            errors.push(messages.lastnameRequired);
-        }
+            //lastname
+            if (!isRequired(user.lastname)) {
+                errors.push(messages.lastnameRequired);
+            }
 
-        //email
-        if (!isRequired(user.email)) {
-            errors.push(messages.emailRequired);
-        }
-        if (!checkEmail(user.email)) {
-            errors.push(messages.emailRequired);
-        }
+            //email
+            if (!isRequired(user.email)) {
+                errors.push(messages.emailRequired);
+            }
+            if (!checkEmail(user.email)) {
+                errors.push(messages.emailRequired);
+            }
 
-        //password
-        if (!isRequired(user.password)) {
-            errors.push(messages.passwordRequired);
-        }
-        if (!minMax(user.password, 8, 60)) {
-            errors.push(messages.passwordMinMax);
+            //password
+            if (!isRequired(user.password)) {
+                errors.push(messages.passwordRequired);
+            }
+            if (!minMax(user.password, 8, 60)) {
+                errors.push(messages.passwordMinMax);
+            }
         }
 
         setErrors(errors);
@@ -111,7 +118,8 @@ export const UserForm = ({ type }: UserFormProps) => {
     return (
         <>
             <h1>
-                {type === UserFormTypes.add ? 'Add' : 'Edit'} user {type === UserFormTypes.edit ? user?._id : ''}
+                {type === UserFormTypes.add ? t('button.add') : t('button.edit')} {t('form.user')}{' '}
+                {type === UserFormTypes.edit ? user?._id : ''}
             </h1>
             <Form>
                 <div>

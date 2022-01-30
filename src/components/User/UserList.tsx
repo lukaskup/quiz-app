@@ -9,6 +9,9 @@ import { useModalState } from '../Modal/Modal';
 import { User } from '../../models/User';
 import { api } from '../../api';
 import { useInfoBadge } from '../../hooks/useInfoBadge';
+import { useTranslation } from 'react-i18next';
+import { useHistory, useLocation } from 'react-router';
+
 interface QuizListProps {
     title?: ReactElement;
 }
@@ -17,7 +20,9 @@ export const UserList = ({ title }: QuizListProps) => {
     const deleteModalState = useModalState();
     const [activeDeleteUser, setActiveDeleteUser] = useState<User | null>(null);
     const [users, setUsers] = useState<User[]>([]);
-
+    const { t } = useTranslation();
+    const history = useHistory();
+    const location = useLocation();
     useEffect(() => {
         api.getUsers().then((data) => {
             setUsers(data);
@@ -30,8 +35,7 @@ export const UserList = ({ title }: QuizListProps) => {
                 setUsers(users.filter((user) => user._id !== activeDeleteUser._id));
                 setActiveDeleteUser(null);
                 deleteModalState.setIsOpen(false);
-                document.location.search = '';
-                document.location.search = '?success=delete';
+                history.replace({ pathname: location.pathname, search: '?success=delete' });
             });
         }
     };
@@ -40,29 +44,23 @@ export const UserList = ({ title }: QuizListProps) => {
 
     return (
         <>
-            {showInfoBadge === 'add' && (
-                <InfoBadge className={'success'}>Successfully added user to database! :)</InfoBadge>
-            )}
-            {showInfoBadge === 'edit' && (
-                <InfoBadge className={'success'}>Successfully updated user in database! :)</InfoBadge>
-            )}
-            {showInfoBadge === 'delete' && (
-                <InfoBadge className={'success'}>Successfully deleted user from database! :)</InfoBadge>
-            )}
+            {showInfoBadge === 'add' && <InfoBadge className={'success'}>{t('infoBadge.add')}</InfoBadge>}
+            {showInfoBadge === 'edit' && <InfoBadge className={'success'}>{t('infoBadge.edit')}</InfoBadge>}
+            {showInfoBadge === 'delete' && <InfoBadge className={'success'}>{t('infoBadge.delete')}</InfoBadge>}
             {title ? title : <h1 style={{ display: 'inline-block' }}>Users list</h1>}
             {!title && (
                 <ButtonLink to="/user/add" style={{ marginTop: '50px', float: 'right' }}>
-                    Add
+                    {t('buttons.add')}
                 </ButtonLink>
             )}
             <Table>
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Email</th>
-                        <th>Actions</th>
+                        <th>{t('form.id')}</th>
+                        <th>{t('userTable.firstName')}</th>
+                        <th>{t('userTable.lastName')}</th>
+                        <th>{t('userTable.email')}</th>
+                        <th>{t('form.actions')}</th>
                     </tr>
                 </thead>
                 {users.map((user: User) => {
@@ -73,8 +71,8 @@ export const UserList = ({ title }: QuizListProps) => {
                             <td>{user.lastname}</td>
                             <td>{user.email}</td>
                             <td>
-                                <ButtonLink to={`/user/view/${user._id}`}>View</ButtonLink>
-                                <ButtonLink to={`/user/edit/${user._id}`}>Edit</ButtonLink>
+                                <ButtonLink to={`/user/view/${user._id}`}>{t('buttons.view')}</ButtonLink>
+                                <ButtonLink to={`/user/edit/${user._id}`}>{t('buttons.edit')}</ButtonLink>
                                 <ButtonIcon
                                     className="delete-button"
                                     onClick={() => {
@@ -94,19 +92,19 @@ export const UserList = ({ title }: QuizListProps) => {
                 body={
                     <>
                         <ModalTitle>
-                            <span>Delete User</span>
+                            <span>{t('deleteModal.deleteUser')}</span>
                             <ReactSVG
                                 src={CloseIcon}
                                 className={'close-icon'}
                                 onClick={() => deleteModalState.setIsOpen(false)}
                             />
                         </ModalTitle>
-                        <ModalContent>Are you sure u want to delete user {activeDeleteUser?._id}?</ModalContent>
+                        <ModalContent>{t('deleteModal.title')}</ModalContent>
                         <ModalButtons>
                             <Button style={{ float: 'right', background: 'red' }} onClick={handleDelete}>
-                                Yes, delete!
+                                {t('deleteModal.yes')}
                             </Button>
-                            <Button style={{ float: 'right' }}>Nope!</Button>
+                            <Button style={{ float: 'right' }}>{t('deleteModal.no')}</Button>
                         </ModalButtons>
                     </>
                 }

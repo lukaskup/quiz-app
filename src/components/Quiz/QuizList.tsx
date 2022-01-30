@@ -10,12 +10,16 @@ import { useModalState } from '../Modal/Modal';
 import { api } from '../../api';
 import { useInfoBadge } from '../../hooks/useInfoBadge';
 import { useTranslation } from 'react-i18next';
+import { useHistory, useLocation } from 'react-router';
 
 export const QuizList = () => {
     const deleteModalState = useModalState();
     const [activeDeleteQuiz, setActiveDeleteQuiz] = useState<Quiz | null>(null);
     const [quizes, setQuizes] = useState<Quiz[]>([]);
     const { showInfoBadge } = useInfoBadge();
+    const history = useHistory();
+    const location = useLocation();
+
     useEffect(() => {
         api.getQuizes().then((data) => {
             setQuizes(data);
@@ -30,23 +34,16 @@ export const QuizList = () => {
                 setQuizes(quizes.filter((quiz) => quiz._id !== activeDeleteQuiz._id));
                 setActiveDeleteQuiz(null);
                 deleteModalState.setIsOpen(false);
-                document.location.search = '';
-                document.location.search = '?success=delete';
+                history.replace({ pathname: location.pathname, search: '?success=delete' });
             });
         }
     };
 
     return (
         <>
-            {showInfoBadge === 'add' && (
-                <InfoBadge className={'success'}>Successfully added quiz to database! :)</InfoBadge>
-            )}
-            {showInfoBadge === 'edit' && (
-                <InfoBadge className={'success'}>Successfully updated quiz in database! :)</InfoBadge>
-            )}
-            {showInfoBadge === 'delete' && (
-                <InfoBadge className={'success'}>Successfully deleted quiz from database! :)</InfoBadge>
-            )}
+            {showInfoBadge === 'add' && <InfoBadge className={'success'}>{t('infoBadge.add')}</InfoBadge>}
+            {showInfoBadge === 'edit' && <InfoBadge className={'success'}>{t('infoBadge.edit')}</InfoBadge>}
+            {showInfoBadge === 'delete' && <InfoBadge className={'success'}>{t('infoBadge.delete')}</InfoBadge>}
             <h1 style={{ display: 'inline-block' }}>{t('quizList')}</h1>
             <ButtonLink to="/quiz/add" style={{ marginTop: '50px', float: 'right' }}>
                 {t('buttons.add')}
@@ -90,7 +87,7 @@ export const QuizList = () => {
                 body={
                     <>
                         <ModalTitle>
-                            <span>Delete Quiz</span>
+                            <span>{t('deleteModal.deleteQuiz')}</span>
                             <ReactSVG
                                 src={CloseIcon}
                                 className={'close-icon'}

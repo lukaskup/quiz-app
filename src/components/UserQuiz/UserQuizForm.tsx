@@ -6,6 +6,7 @@ import { useFormValidation } from '../../hooks/useFormValidation';
 import { User } from '../../models/User';
 import { Quiz } from '../../models/Quiz';
 import { UserQuiz, UserQuizDTO } from '../../models/UserQuiz';
+import { useTranslation } from 'react-i18next';
 
 export enum UserQuizFormTypes {
     edit = 'edit',
@@ -34,6 +35,8 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
     const [quizes, setQuizes] = useState<Quiz[]>([]);
     const { id }: UserQuizEditUrlParams = useParams();
     const [redirect, setRedirect] = useState<boolean>(false);
+    const { t } = useTranslation();
+    const isClientValidation = Boolean(process.env.REACT_APP_CLIENT_VALIDATION);
 
     useEffect(() => {
         if (id) {
@@ -63,9 +66,13 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                     quiz: userQuiz.quiz?._id,
                 };
 
-                api.updateUserQuiz(dto).then(() => {
-                    setRedirect(true);
-                });
+                api.updateUserQuiz(dto)
+                    .then(() => {
+                        setRedirect(true);
+                    })
+                    .catch((e) => {
+                        setErrors(e.response.data.map((error: string) => t(error)));
+                    });
             } else if (userQuiz.quiz) {
                 const dto: UserQuizDTO = {
                     submitted_at: userQuiz.submitted_at,
@@ -75,9 +82,13 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                     quiz: userQuiz.quiz?._id,
                 };
 
-                api.addUserQuiz(dto).then(() => {
-                    setRedirect(true);
-                });
+                api.addUserQuiz(dto)
+                    .then(() => {
+                        setRedirect(true);
+                    })
+                    .catch((e) => {
+                        setErrors(e.response.data.map((error: string) => t(error)));
+                    });
             }
         }
     };
@@ -85,30 +96,32 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
     const { errors, setErrors } = useFormValidation(handleSubmit);
 
     const messages = {
-        submittedAtRequired: 'please provide submitted at',
-        userRequired: 'pleasae select user',
-        quizRequired: 'please select quiz',
-        scoreRequired: 'score should be between 1 and 10',
-        ratingRequired: 'rating should be between 1 and 10',
+        submittedAtRequired: t('validationMessages.submittedAtRequired'),
+        userRequired: t('validationMessages.userRequired'),
+        quizRequired: t('validationMessages.quizRequired'),
+        scoreRequired: t('validationMessages.scoreRequired'),
+        ratingRequired: t('validationMessages.ratingRequired'),
     };
 
     const validate = (userQuiz: UserQuiz) => {
         const errors: string[] = [];
-        //rating
-        if (userQuiz.rating && !(userQuiz.rating >= 1 && userQuiz.rating <= 10)) {
-            errors.push(messages.ratingRequired);
-        }
-        //score
-        if (!(userQuiz.score >= 1 && userQuiz.score <= 10)) {
-            errors.push(messages.scoreRequired);
-        }
-        //quiz
-        if (!!!userQuiz.quiz?._id) {
-            errors.push(messages.quizRequired);
-        }
-        //user
-        if (!!!userQuiz.user?._id) {
-            errors.push(messages.userRequired);
+        if (isClientValidation) {
+            //rating
+            if (userQuiz.rating && !(userQuiz.rating >= 1 && userQuiz.rating <= 10)) {
+                errors.push(messages.ratingRequired);
+            }
+            //score
+            if (!(userQuiz.score >= 1 && userQuiz.score <= 10)) {
+                errors.push(messages.scoreRequired);
+            }
+            //quiz
+            if (!!!userQuiz.quiz?._id) {
+                errors.push(messages.quizRequired);
+            }
+            //user
+            if (!!!userQuiz.user?._id) {
+                errors.push(messages.userRequired);
+            }
         }
 
         setErrors(errors);
@@ -127,15 +140,15 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
     return (
         <>
             <h1>
-                {type === UserQuizFormTypes.add ? 'Add' : 'Edit'} user-quiz
+                {type === UserQuizFormTypes.add ? t('buttons.add') : t('buttons.edit')} {t('form.userQuiz')}
                 {type === UserQuizFormTypes.edit ? userQuiz?._id : ''}
             </h1>
             <Form>
                 <div>
-                    <label>Submitted at</label>
+                    <label>{t('userQuizesTable.submittedAt')}</label>
                     <input
                         type="date"
-                        placeholder={'submitted at'}
+                        placeholder={t('userQuizesTable.submittedAt')}
                         defaultValue={toDateInputValue(new Date(userQuiz.submitted_at))}
                         value={userQuiz ? toDateInputValue(new Date(userQuiz.submitted_at)) : ''}
                         onChange={(e) => {
@@ -144,10 +157,10 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                     />
                 </div>
                 <div>
-                    <label>Rating</label>
+                    <label>{t('userQuizesTable.rating')}</label>
                     <input
                         type="number"
-                        placeholder={'rating'}
+                        placeholder={t('userQuizesTable.rating')}
                         value={userQuiz ? userQuiz.rating : ''}
                         onChange={(e) => {
                             setUserQuiz({ ...userQuiz, rating: parseInt(e.target.value) });
@@ -155,10 +168,10 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                     />
                 </div>
                 <div>
-                    <label>Score</label>
+                    <label>{t('userQuizesTable.score')}</label>
                     <input
                         type="number"
-                        placeholder={'score'}
+                        placeholder={t('userQuizesTable.score')}
                         value={userQuiz ? userQuiz.score : ''}
                         onChange={(e) => {
                             setUserQuiz({ ...userQuiz, score: parseInt(e.target.value) });
@@ -166,7 +179,7 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                     />
                 </div>
                 <div>
-                    <label>Quiz</label>
+                    <label>{t('userQuizesTable.quiz')}</label>
                     <select
                         title="quiz option"
                         onChange={(e) => {
@@ -174,7 +187,7 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                             setUserQuiz({ ...userQuiz, quiz: newQuiz ? newQuiz : null });
                         }}
                     >
-                        <option value="">Select your option</option>
+                        <option value="">{t('userQuizesTable.quiz')}</option>
                         {quizes.map((quiz) => (
                             <option
                                 key={`quiz-${quiz._id}`}
@@ -188,7 +201,7 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                     </select>
                 </div>
                 <div>
-                    <label>User</label>
+                    <label>{t('userQuizesTable.user')}</label>
                     <select
                         title="user option"
                         onChange={(e) => {
@@ -196,7 +209,7 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                             setUserQuiz({ ...userQuiz, user: newUser ? newUser : null });
                         }}
                     >
-                        <option value="">Select your option</option>
+                        <option value="">{t('userQuizesTable.user')}</option>
                         {users.map((user) => (
                             <option
                                 key={`user-${user._id}`}

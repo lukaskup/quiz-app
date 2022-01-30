@@ -1,6 +1,6 @@
 import { UserQuizDTO } from './../models/UserQuiz';
 import { Quiz } from './../models/Quiz';
-import { User } from './../models/User';
+import { User, UserAuth } from './../models/User';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -55,5 +55,13 @@ export const api = {
     },
     deleteUserQuiz: async (id: string) => {
         return (await axios.delete(`${apiUrl}usersQuizes/${id}`)).data;
+    },
+
+    //auth
+    login: async (body: UserAuth) => {
+        return await axios.post(`${apiUrl}login`, body);
+    },
+    register: async (body: UserAuth) => {
+        return await axios.post(`${apiUrl}register`, body);
     },
 };

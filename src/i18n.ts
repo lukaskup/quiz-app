@@ -10,6 +10,12 @@ const resources = {
             english: 'english',
             polish: 'polish',
             quizList: 'Quizzes list',
+            auth: {
+                register: 'register',
+                login: 'login',
+                username: 'username',
+                password: 'password',
+            },
             buttons: {
                 view: 'view',
                 edit: 'edit',
@@ -20,6 +26,9 @@ const resources = {
                 title: 'Are you sure to delete this record?',
                 yes: 'Yes, delete!',
                 no: 'Nope!',
+                deleteQuiz: 'Delete Quiz',
+                deleteUser: 'Delete User',
+                deleteUserQuiz: 'Delete UserQuiz',
             },
             navigation: {
                 quizzes: 'quizzes',
@@ -29,6 +38,9 @@ const resources = {
             form: {
                 actions: 'actions',
                 id: 'id',
+                user: 'user',
+                quiz: 'quiz',
+                userQuiz: 'userQuiz',
             },
             quizTable: {
                 name: 'name',
@@ -39,6 +51,11 @@ const resources = {
                 quiz: 'quiz',
                 quizAttempts: 'Quizy attempts',
             },
+            userTable: {
+                firstName: 'first name',
+                lastName: 'last name',
+                email: 'email',
+            },
             userQuizesTable: {
                 submittedAt: 'submitted at',
                 rating: 'rating',
@@ -46,12 +63,42 @@ const resources = {
                 user: 'user',
                 quiz: 'quiz',
             },
+            infoBadge: {
+                add: 'Successfully added record to database! :)',
+                edit: 'Successfully updated record in database! :)',
+                delete: 'Successfully deleted record from database! :)',
+            },
+            validationMessages: {
+                //user
+                firstnameRequired: 'please provide correct first name',
+                firstnameMinMax: 'firstname should have length between 3 and 20',
+                lastnameRequired: 'please provide correct lastname',
+                emailRequired: 'please provide correct email',
+                passwordRequired: 'please provide correct password',
+                passwordMinMax: 'password should have length between 8 and 60',
+                //quiz
+                nameRequired: 'please provide correct name',
+                nameMinMax: 'name should have length between 3 and 20',
+                descriptionRequired: 'please provide correct description',
+                //userQuiz
+                submittedAtRequired: 'please provide submitted at',
+                userRequired: 'pleasae select user',
+                quizRequired: 'please select quiz',
+                scoreRequired: 'score should be between 1 and 10',
+                ratingRequired: 'rating should be between 1 and 10',
+            },
         },
     },
     pl: {
         translation: {
             english: 'angielski',
             polish: 'polski',
+            auth: {
+                register: 'zarajestruj się',
+                login: 'zaloguj się',
+                username: 'nazwa użytkownika',
+                password: 'hasło',
+            },
             navigation: {
                 quizzes: 'quizy',
                 users: 'użytkownicy',
@@ -60,6 +107,9 @@ const resources = {
             form: {
                 actions: 'akcje',
                 id: 'id',
+                user: 'użytkownika',
+                quiz: 'quiz',
+                userQuiz: 'użyutkownikQuiz',
             },
             buttons: {
                 view: 'wyświetl',
@@ -71,6 +121,9 @@ const resources = {
                 title: 'Czy na penwo chcesz skasować ten rekord?',
                 yes: 'Tak, usuń!',
                 no: 'Nie!',
+                deleteQuiz: 'Usuń quiz',
+                deleteUser: 'Usuń użytkownika',
+                deleteUserQuiz: 'Usuń użytkownikQuiz',
             },
             quizList: 'lista quizów',
             quizTable: {
@@ -82,12 +135,41 @@ const resources = {
                 quiz: 'quiz',
                 quizAttempts: 'Próby quizu',
             },
+            userTable: {
+                firstName: 'imię',
+                lastName: 'nazwisko',
+                email: 'email',
+            },
             userQuizesTable: {
                 submittedAt: 'data',
                 rating: 'ocena',
                 score: 'wynik',
                 user: 'użytkownik',
                 quiz: 'quiz',
+            },
+            infoBadge: {
+                add: 'Pomyślnie dodano rekord do bazy danych',
+                edit: 'Pomyślnie zedytowano rekord w bazie danych',
+                delete: 'Pomyślnie usunięto rekord z bazy danych',
+            },
+            validationMessages: {
+                //user
+                firstnameRequired: 'podaj poprawnę imię',
+                firstnameMinMax: 'imię powinno mieć od 3 do 20 znaków',
+                lastnameRequired: 'podaj poprawne nazwisko',
+                emailRequired: 'podaj poprawny email',
+                passwordRequired: 'podaj poprawne hasło',
+                passwordMinMax: 'hasło powinno mieć od 8 do 60 znaków',
+                //quiz
+                nameRequired: 'podaj poprawną nazwę',
+                nameMinMax: 'nazwa powinna mieć od 3 do 20 znaków',
+                descriptionRequired: 'podaj poprawny opis',
+                //userQuiz
+                submittedAtRequired: 'podaj poprawną datę',
+                userRequired: 'proszę wybierz użytkownika',
+                quizRequired: 'proszę wybierz quiz',
+                scoreRequired: 'wynik powinien być większy lub równy 1 i mniejszy lub równy 10',
+                ratingRequired: 'ocena powininna być większa lub równa 1 i mniejszy lub równy 10',
             },
         },
     },

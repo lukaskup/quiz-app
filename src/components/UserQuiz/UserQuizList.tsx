@@ -9,8 +9,9 @@ import { useModalState } from '../Modal/Modal';
 import { UserQuiz } from '../../models/UserQuiz';
 import { Link } from 'react-router-dom';
 import { api } from '../../api';
-import i18next from 'i18next';
 import { useInfoBadge } from '../../hooks/useInfoBadge';
+import { useTranslation } from 'react-i18next';
+import { useHistory, useLocation } from 'react-router';
 
 interface UserQuizListProps {
     userQuizzes?: Array<UserQuiz> | null;
@@ -24,6 +25,10 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
     const [userQuizes, setUserQuizes] = useState<UserQuiz[]>(
         userQuizzes !== null && typeof userQuizzes !== 'undefined' ? userQuizzes : [],
     );
+
+    const { t } = useTranslation();
+    const history = useHistory();
+    const location = useLocation();
 
     useEffect(() => {
         if (userQuizzes == null) {
@@ -41,8 +46,7 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
                 setUserQuizes(userQuizes.filter((userQuiz) => userQuiz._id !== activeDeleteUserQuiz._id));
                 setActiveDeleteUserQuiz(null);
                 deleteModalState.setIsOpen(false);
-                document.location.search = '';
-                document.location.search = '?success=delete';
+                history.replace({ pathname: location.pathname, search: '?success=delete' });
             });
         }
     };
@@ -51,31 +55,25 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
 
     return (
         <>
-            {showInfoBadge === 'add' && (
-                <InfoBadge className={'success'}>Successfully added user to database! :)</InfoBadge>
-            )}
-            {showInfoBadge === 'edit' && (
-                <InfoBadge className={'success'}>Successfully updated user in database! :)</InfoBadge>
-            )}
-            {showInfoBadge === 'delete' && (
-                <InfoBadge className={'success'}>Successfully deleted user from database! :)</InfoBadge>
-            )}
-            {title ? title : <h1 style={{ display: 'inline-block' }}>{i18next.t('quizView.quizAttempts')}</h1>}
+            {showInfoBadge === 'add' && <InfoBadge className={'success'}>{t('infoBadge.add')}</InfoBadge>}
+            {showInfoBadge === 'edit' && <InfoBadge className={'success'}>{t('infoBadge.edit')}</InfoBadge>}
+            {showInfoBadge === 'delete' && <InfoBadge className={'success'}>{t('infoBadge.delete')}</InfoBadge>}
+            {title ? title : <h1 style={{ display: 'inline-block' }}>{t('quizView.quizAttempts')}</h1>}
             {!title && (
                 <ButtonLink to="/userQuiz/add" style={{ marginTop: '50px', float: 'right' }}>
-                    {i18next.t('buttons.add')}
+                    {t('buttons.add')}
                 </ButtonLink>
             )}
             <Table>
                 <thead>
                     <tr>
-                        <th>{i18next.t('form.id')}</th>
-                        <th>{i18next.t('userQuizesTable.submittedAt')}</th>
-                        <th>{i18next.t('userQuizesTable.rating')}</th>
-                        <th>{i18next.t('userQuizesTable.score')}</th>
-                        {!dontShow?.includes('user') ? <th>{i18next.t('userQuizesTable.user')}</th> : ''}
-                        {!dontShow?.includes('quiz') ? <th>{i18next.t('userQuizesTable.quiz')}</th> : ''}
-                        <th>{i18next.t('form.actions')}</th>
+                        <th>{t('form.id')}</th>
+                        <th>{t('userQuizesTable.submittedAt')}</th>
+                        <th>{t('userQuizesTable.rating')}</th>
+                        <th>{t('userQuizesTable.score')}</th>
+                        {!dontShow?.includes('user') ? <th>{t('userQuizesTable.user')}</th> : ''}
+                        {!dontShow?.includes('quiz') ? <th>{t('userQuizesTable.quiz')}</th> : ''}
+                        <th>{t('form.actions')}</th>
                     </tr>
                 </thead>
                 {userQuizes.map((userQuiz: UserQuiz, i: number) => {
@@ -102,12 +100,8 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
                                 ''
                             )}
                             <td>
-                                <ButtonLink to={`/userQuiz/view/${userQuiz._id}`}>
-                                    {i18next.t('buttons.view')}
-                                </ButtonLink>
-                                <ButtonLink to={`/userQuiz/edit/${userQuiz._id}`}>
-                                    {i18next.t('buttons.edit')}
-                                </ButtonLink>
+                                <ButtonLink to={`/userQuiz/view/${userQuiz._id}`}>{t('buttons.view')}</ButtonLink>
+                                <ButtonLink to={`/userQuiz/edit/${userQuiz._id}`}>{t('buttons.edit')}</ButtonLink>
                                 <ButtonIcon
                                     className="delete-button"
                                     onClick={() => {
@@ -127,19 +121,19 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
                 body={
                     <>
                         <ModalTitle>
-                            <span>Delete User-quiz</span>
+                            <span>{t('deleteModal.deleteUserQuiz')}</span>
                             <ReactSVG
                                 src={CloseIcon}
                                 className={'close-icon'}
                                 onClick={() => deleteModalState.setIsOpen(false)}
                             />
                         </ModalTitle>
-                        <ModalContent>{i18next.t('deleteModal.title')}</ModalContent>
+                        <ModalContent>{t('deleteModal.title')}</ModalContent>
                         <ModalButtons>
                             <Button style={{ float: 'right', background: 'red' }} onClick={handleDelete}>
-                                {i18next.t('deleteModal.yes')}
+                                {t('deleteModal.yes')}
                             </Button>
-                            <Button style={{ float: 'right' }}>{i18next.t('deleteModal.no')}</Button>
+                            <Button style={{ float: 'right' }}>{t('deleteModal.no')}</Button>
                         </ModalButtons>
                     </>
                 }

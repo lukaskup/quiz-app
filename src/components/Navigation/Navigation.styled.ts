@@ -6,6 +6,13 @@ export const NavigationContainer = styled.nav`
     border-bottom: 1px solid #f1f1f1;
     box-shadow: rgba(149, 157, 165, 0.2) 0 2px 24px;
 
+    #lang {
+        border: 1px solid black;
+        border-radius: 20px;
+        padding: 3px;
+        width: 80px;
+    }
+
     a {
         color: black;
         text-decoration: none;

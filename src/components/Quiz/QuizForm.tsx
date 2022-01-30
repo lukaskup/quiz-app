@@ -27,7 +27,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
         image_url: '',
     });
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-    const isClientValidation = Boolean(process.env.CLIENT_VALIDATION);
+    const isClientValidation = Boolean(process.env.REACT_APP_CLIENT_VALIDATION);
     const { id }: QuizEditUrlParams = useParams();
     const [redirect, setRedirect] = useState<boolean>(false);
     const { t } = useTranslation();
@@ -49,7 +49,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                         setRedirect(true);
                     })
                     .catch((e) => {
-                        setErrors(e.response.data);
+                        setErrors(e.response.data.map((error: string) => t(error)));
                     });
             } else if (quiz.name || (!isClientValidation && isSubmitted)) {
                 api.addQuiz(quiz)
@@ -57,7 +57,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                         setRedirect(true);
                     })
                     .catch((e) => {
-                        setErrors(e.response.data);
+                        setErrors(e.response.data.map((error: string) => t(error)));
                     });
             }
         }
@@ -66,14 +66,13 @@ export const QuizForm = ({ type }: QuizFormProps) => {
     const { isRequired, minMax, errors, setErrors } = useFormValidation(handleSubmit);
 
     const messages = {
-        nameRequired: 'please provide correct name',
-        nameMinMax: 'name should have length between 3 and 20',
-        descriptionRequired: 'please provide correct description',
+        nameRequired: t('validationMessages.nameRequired'),
+        nameMinMax: t('validationMessages.nameMinMax'),
+        descriptionRequired: t('validationMessages.descriptionRequired'),
     };
 
     const validate = (quiz: Quiz) => {
         const errors: string[] = [];
-
         if (isClientValidation) {
             //name
             if (!isRequired(quiz.name)) {
@@ -99,7 +98,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
     return (
         <>
             <h1>
-                {type === QuizFormTypes.add ? t('buttons.add') : t('buttons.edit')} {t('quizView.quiz')}{' '}
+                {type === QuizFormTypes.add ? t('buttons.add') : t('buttons.edit')} {t('form.quiz')}{' '}
                 {type === QuizFormTypes.edit ? quiz?._id : ''}
             </h1>
             <Form>
