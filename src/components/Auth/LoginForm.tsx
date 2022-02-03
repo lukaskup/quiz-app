@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Form, Button } from '../../App.styled';
 import { api } from '../../api';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
 
 export const LoginForm = () => {
     const [login, setLogin] = useState<string>('');

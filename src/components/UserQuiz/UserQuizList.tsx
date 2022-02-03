@@ -80,7 +80,7 @@ export const UserQuizList = ({ userQuizzes, title, dontShow }: UserQuizListProps
                     return (
                         <tr key={`${userQuiz}-${i}`}>
                             <td>{userQuiz._id}</td>
-                            <td>{userQuiz.submitted_at}</td>
+                            <td>{new Date(userQuiz.submitted_at).toLocaleDateString()}</td>
                             <td>{userQuiz.rating ? userQuiz.rating : '-'}</td>
                             <td>{userQuiz.score}</td>
                             {!dontShow?.includes('user') && userQuiz.user ? (

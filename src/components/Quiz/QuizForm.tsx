@@ -129,7 +129,9 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                     />
                 </div>
                 <div>
-                    <label>{t('quizTable.imageUrl')}</label>
+                    <label>
+                        {t('quizTable.imageUrl')} ({t('form.optional')})
+                    </label>
                     <input
                         type="text"
                         placeholder={'image url'}

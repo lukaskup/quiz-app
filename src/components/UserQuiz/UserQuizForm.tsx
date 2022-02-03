@@ -132,15 +132,19 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
     }
 
     const toDateInputValue = (date: Date) => {
-        const local = new Date(date);
-        local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-        return local.toJSON().slice(0, 10);
+        if (date.toString() !== 'Invalid Date') {
+            const local = new Date(date);
+            local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+            return local.toJSON().slice(0, 10);
+        }
+
+        return new Date().toJSON().slice(0, 10);
     };
 
     return (
         <>
             <h1>
-                {type === UserQuizFormTypes.add ? t('buttons.add') : t('buttons.edit')} {t('form.userQuiz')}
+                {type === UserQuizFormTypes.add ? t('buttons.add') : t('buttons.edit')} {t('form.userQuiz')}{' '}
                 {type === UserQuizFormTypes.edit ? userQuiz?._id : ''}
             </h1>
             <Form>
@@ -152,7 +156,10 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                         defaultValue={toDateInputValue(new Date(userQuiz.submitted_at))}
                         value={userQuiz ? toDateInputValue(new Date(userQuiz.submitted_at)) : ''}
                         onChange={(e) => {
-                            setUserQuiz({ ...userQuiz, submitted_at: new Date(e.target.value) });
+                            const newValue = new Date(e.target.value);
+                            if (newValue.toString() !== 'Invalid Date') {
+                                setUserQuiz({ ...userQuiz, submitted_at: newValue });
+                            }
                         }}
                     />
                 </div>
@@ -187,12 +194,14 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                             setUserQuiz({ ...userQuiz, quiz: newQuiz ? newQuiz : null });
                         }}
                     >
-                        <option value="">{t('userQuizesTable.quiz')}</option>
+                        <option value="">
+                            {t('form.choose')} {t('form.quiz')}
+                        </option>
                         {quizes.map((quiz) => (
                             <option
                                 key={`quiz-${quiz._id}`}
                                 value={quiz._id}
-                                selected={type === UserQuizFormTypes.edit && quiz._id === userQuiz?._id}
+                                selected={type === UserQuizFormTypes.edit && quiz._id === userQuiz?.quiz?._id}
                             >
                                 {`${quiz.name}`}
                             </option>
@@ -209,7 +218,9 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                             setUserQuiz({ ...userQuiz, user: newUser ? newUser : null });
                         }}
                     >
-                        <option value="">{t('userQuizesTable.user')}</option>
+                        <option value="">
+                            {t('form.choose')} {t('form.user')}
+                        </option>
                         {users.map((user) => (
                             <option
                                 key={`user-${user._id}`}

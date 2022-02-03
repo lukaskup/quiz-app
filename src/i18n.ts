@@ -41,6 +41,8 @@ const resources = {
                 user: 'user',
                 quiz: 'quiz',
                 userQuiz: 'userQuiz',
+                choose: 'choose',
+                optional: 'optional',
             },
             quizTable: {
                 name: 'name',
@@ -49,12 +51,13 @@ const resources = {
             },
             quizView: {
                 quiz: 'quiz',
-                quizAttempts: 'Quizy attempts',
+                quizAttempts: 'Quiz attempts',
             },
             userTable: {
                 firstName: 'first name',
                 lastName: 'last name',
                 email: 'email',
+                password: 'password',
             },
             userQuizesTable: {
                 submittedAt: 'submitted at',
@@ -110,6 +113,8 @@ const resources = {
                 user: 'użytkownika',
                 quiz: 'quiz',
                 userQuiz: 'użyutkownikQuiz',
+                choose: 'wybierz',
+                optional: 'opcjonalne',
             },
             buttons: {
                 view: 'wyświetl',
@@ -139,6 +144,7 @@ const resources = {
                 firstName: 'imię',
                 lastName: 'nazwisko',
                 email: 'email',
+                password: 'hasło',
             },
             userQuizesTable: {
                 submittedAt: 'data',

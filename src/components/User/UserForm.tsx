@@ -118,12 +118,12 @@ export const UserForm = ({ type }: UserFormProps) => {
     return (
         <>
             <h1>
-                {type === UserFormTypes.add ? t('button.add') : t('button.edit')} {t('form.user')}{' '}
+                {type === UserFormTypes.add ? t('buttons.add') : t('buttons.edit')} {t('form.user')}{' '}
                 {type === UserFormTypes.edit ? user?._id : ''}
             </h1>
             <Form>
                 <div>
-                    <label>First name</label>
+                    <label>{t('userTable.firstName')}</label>
                     <input
                         type="text"
                         placeholder={'first name'}
@@ -136,7 +136,7 @@ export const UserForm = ({ type }: UserFormProps) => {
                     />
                 </div>
                 <div>
-                    <label>Last name</label>
+                    <label>{t('userTable.lastName')}</label>
                     <input
                         type="text"
                         placeholder={'last name'}
@@ -149,7 +149,7 @@ export const UserForm = ({ type }: UserFormProps) => {
                     />
                 </div>
                 <div>
-                    <label>Email</label>
+                    <label>{t('userTable.email')}</label>
                     <input
                         type="text"
                         placeholder={'email'}
@@ -162,7 +162,7 @@ export const UserForm = ({ type }: UserFormProps) => {
                     />
                 </div>
                 <div>
-                    <label>Password</label>
+                    <label>{t('userTable.password')}</label>
                     <input
                         type="text"
                         placeholder={'password'}

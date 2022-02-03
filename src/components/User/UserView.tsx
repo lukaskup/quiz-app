@@ -5,6 +5,7 @@ import { User } from '../../models/User';
 import { UserQuizList } from '../UserQuiz';
 import { api } from '../../api';
 import { UserQuiz } from '../../models/UserQuiz';
+import { useTranslation } from 'react-i18next';
 
 interface UserViewUrlParams {
     id: string;
@@ -14,6 +15,7 @@ export const UserView = () => {
     const [user, setUser] = useState<User | null>(null);
     const [userQuizes, setUserQuizes] = useState<UserQuiz[] | null>([]);
     const { id }: UserViewUrlParams = useParams();
+    const { t } = useTranslation();
 
     useEffect(() => {
         api.getUser(id).then((data) => {
@@ -24,27 +26,29 @@ export const UserView = () => {
 
     return (
         <>
-            <h1 style={{ display: 'inline-block' }}>User {user?._id} view</h1>
+            <h1 style={{ display: 'inline-block' }}>
+                {t('form.user')} {user?._id} {t('buttons.view')}
+            </h1>
             <ButtonLink to={`/user/edit/${id}`} style={{ marginTop: '50px', float: 'right' }}>
-                Edit
+                {t('buttons.edit')}
             </ButtonLink>
             <ViewContainer>
                 <ViewInfo>
-                    <span>First name</span>
+                    <span>{t('userTable.firstName')}</span>
                     <span>{user?.firstname}</span>
                 </ViewInfo>
                 <ViewInfo>
-                    <span>Last name</span>
+                    <span>{t('userTable.lastName')}</span>
                     <span>{user?.lastname}</span>
                 </ViewInfo>
                 <ViewInfo>
-                    <span>Email</span>
+                    <span>{t('userTable.email')}</span>
                     <span>{user?.email}</span>
                 </ViewInfo>
             </ViewContainer>
             <UserQuizList
                 userQuizzes={userQuizes !== null ? userQuizes : []}
-                title={<h2>Quizes taken by user</h2>}
+                title={<h2>{t('quizView.quizAttempts')}</h2>}
                 dontShow={['user']}
             />
         </>
