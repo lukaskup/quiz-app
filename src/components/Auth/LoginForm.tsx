@@ -1,55 +1,57 @@
 import React, { useState } from 'react';
-import { Form, Button } from '../../App.styled';
+import { Form, Button, InfoBadge } from '../../App.styled';
 import { api } from '../../api';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../hooks/useAuth';
+import { User } from '../../models/User';
 
 export const LoginForm = () => {
-    const [login, setLogin] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-
+    const [errors, setErrors] = useState<string[]>([]);
+    const { performLogin } = useAuth();
     const { t } = useTranslation();
 
     const handleSubmit = () => {
         api.login({
-            login: login,
+            email: email,
             password: password,
         })
-            .then(() => {
-                // sessionStorage.setItem('user', login);
-                // history.replace({ pathname: 'quiz' });
+            .then((response) => {
+                performLogin(response.data as User);
             })
             .catch((e) => {
-                console.log(e);
+                setErrors(e.response.data.map((error: string) => t(error)));
             });
     };
 
     return (
         <>
-            <h1>{t('auth.login')}</h1>
+            <h1>{t('navigation.login')}</h1>
             <Form>
                 <div>
-                    <label>{t('auth.login')}</label>
+                    <label>{t('userTable.email')}</label>
                     <input
                         type="text"
-                        placeholder={t('loginForm.login')}
-                        value={login}
+                        placeholder={t('userTable.email')}
+                        value={email}
                         onChange={(e) => {
-                            setLogin(e.target.value);
+                            setEmail(e.target.value);
                         }}
                     />
                 </div>
                 <div>
-                    <label>{t('auth.password')}</label>
+                    <label>{t('userTable.password')}</label>
                     <input
                         type="password"
-                        placeholder={t('auth.password')}
+                        placeholder={t('userTable.password')}
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
                         }}
                     />
                 </div>
-                {/* {errors.length > 0 && <InfoBadge className="error">{errors[errors.length - 1]}</InfoBadge>} */}
+                {errors.length > 0 && <InfoBadge className="error">{errors[errors.length - 1]}</InfoBadge>}
                 <Button
                     type={'submit'}
                     onClick={(e) => {

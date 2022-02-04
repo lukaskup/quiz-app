@@ -4,9 +4,10 @@ export interface User {
     lastname: string;
     email: string;
     password: string;
+    role: string;
 }
 
 export interface UserAuth {
-    login: string;
+    email: string;
     password: string;
 }

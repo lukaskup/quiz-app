@@ -6,6 +6,7 @@ import { UserQuizList } from '../UserQuiz';
 import { UserQuiz } from '../../models/UserQuiz';
 import { api } from '../../api';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../hooks/useAuth';
 interface QuizViewUrlParams {
     id: string;
 }
@@ -15,6 +16,8 @@ export const QuizView = () => {
     const [userQuizes, setUserQuizes] = useState<UserQuiz[] | null>([]);
     const { id }: QuizViewUrlParams = useParams();
     const { t } = useTranslation();
+    const { getUser } = useAuth();
+    const authUser = getUser();
 
     useEffect(() => {
         api.getQuiz(id).then((data) => {
@@ -27,9 +30,11 @@ export const QuizView = () => {
             <h1 style={{ display: 'inline-block' }}>
                 {t('quizView.quiz')} {quiz?._id}
             </h1>
-            <ButtonLink to={`/quiz/edit/${id}`} style={{ marginTop: '50px', float: 'right' }}>
-                {t('buttons.edit')}
-            </ButtonLink>
+            {authUser && (
+                <ButtonLink to={`/quiz/edit/${id}`} style={{ marginTop: '50px', float: 'right' }}>
+                    {t('buttons.edit')}
+                </ButtonLink>
+            )}
             <ViewContainer>
                 <ViewInfo>
                     <span>{t('quizTable.name')}</span>
@@ -44,11 +49,13 @@ export const QuizView = () => {
                     <span>{quiz?.image_url ? quiz?.image_url : '-'}</span>
                 </ViewInfo>
             </ViewContainer>
-            <UserQuizList
-                userQuizzes={userQuizes !== null ? userQuizes : []}
-                title={<h2>{t('quizView.quizAttempts')}</h2>}
-                dontShow={['quiz']}
-            />
+            {authUser && (
+                <UserQuizList
+                    userQuizzes={userQuizes !== null ? userQuizes : []}
+                    title={<h2>{t('quizView.quizAttempts')}</h2>}
+                    dontShow={['quiz']}
+                />
+            )}
         </>
     );
 };

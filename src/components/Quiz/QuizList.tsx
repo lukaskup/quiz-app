@@ -11,6 +11,7 @@ import { api } from '../../api';
 import { useInfoBadge } from '../../hooks/useInfoBadge';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
+import { useAuth } from '../../hooks/useAuth';
 
 export const QuizList = () => {
     const deleteModalState = useModalState();
@@ -19,7 +20,8 @@ export const QuizList = () => {
     const { showInfoBadge } = useInfoBadge();
     const history = useHistory();
     const location = useLocation();
-
+    const { getUser } = useAuth();
+    const authUser = getUser();
     useEffect(() => {
         api.getQuizes().then((data) => {
             setQuizes(data);
@@ -45,9 +47,11 @@ export const QuizList = () => {
             {showInfoBadge === 'edit' && <InfoBadge className={'success'}>{t('infoBadge.edit')}</InfoBadge>}
             {showInfoBadge === 'delete' && <InfoBadge className={'success'}>{t('infoBadge.delete')}</InfoBadge>}
             <h1 style={{ display: 'inline-block' }}>{t('quizList')}</h1>
-            <ButtonLink to="/quiz/add" style={{ marginTop: '50px', float: 'right' }}>
-                {t('buttons.add')}
-            </ButtonLink>
+            {authUser && (
+                <ButtonLink to="/quiz/add" style={{ marginTop: '50px', float: 'right' }}>
+                    {t('buttons.add')}
+                </ButtonLink>
+            )}
             <Table>
                 <thead>
                     <tr>
@@ -67,16 +71,18 @@ export const QuizList = () => {
                             <td>{quiz.image_url ? quiz.image_url : '-'}</td>
                             <td>
                                 <ButtonLink to={`/quiz/view/${quiz._id}`}>{t('buttons.view')}</ButtonLink>
-                                <ButtonLink to={`/quiz/edit/${quiz._id}`}>{t('buttons.edit')}</ButtonLink>
-                                <ButtonIcon
-                                    className="delete-button"
-                                    onClick={() => {
-                                        setActiveDeleteQuiz(quiz);
-                                        deleteModalState.setIsOpen(true);
-                                    }}
-                                >
-                                    <ReactSVG src={TrashIcon} />
-                                </ButtonIcon>
+                                {authUser && <ButtonLink to={`/quiz/edit/${quiz._id}`}>{t('buttons.edit')}</ButtonLink>}
+                                {authUser && (
+                                    <ButtonIcon
+                                        className="delete-button"
+                                        onClick={() => {
+                                            setActiveDeleteQuiz(quiz);
+                                            deleteModalState.setIsOpen(true);
+                                        }}
+                                    >
+                                        <ReactSVG src={TrashIcon} />
+                                    </ButtonIcon>
+                                )}
                             </td>
                         </tr>
                     );

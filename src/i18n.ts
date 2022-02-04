@@ -35,6 +35,7 @@ const resources = {
                 users: 'users',
                 userQuizzes: 'userQuizzes',
                 login: 'sign in',
+                logout: 'sign out',
             },
             form: {
                 actions: 'actions',
@@ -59,6 +60,11 @@ const resources = {
                 lastName: 'last name',
                 email: 'email',
                 password: 'password',
+                role: {
+                    title: 'role',
+                    moderator: 'moderator',
+                    admin: 'admin',
+                },
             },
             userQuizesTable: {
                 submittedAt: 'submitted at',
@@ -80,6 +86,7 @@ const resources = {
                 emailRequired: 'please provide correct email',
                 passwordRequired: 'please provide correct password',
                 passwordMinMax: 'password should have length between 8 and 60',
+                loginFailed: 'wrong credentials',
                 //quiz
                 nameRequired: 'please provide correct name',
                 nameMinMax: 'name should have length between 3 and 20',
@@ -108,6 +115,7 @@ const resources = {
                 users: 'użytkownicy',
                 userQuizzes: 'użytkownikQuiz',
                 login: 'zaloguj się',
+                logout: 'wyloguj się',
             },
             form: {
                 actions: 'akcje',
@@ -147,6 +155,11 @@ const resources = {
                 lastName: 'nazwisko',
                 email: 'email',
                 password: 'hasło',
+                role: {
+                    title: 'rola',
+                    moderator: 'moderator',
+                    admin: 'admin',
+                },
             },
             userQuizesTable: {
                 submittedAt: 'data',
@@ -168,6 +181,7 @@ const resources = {
                 emailRequired: 'podaj poprawny email',
                 passwordRequired: 'podaj poprawne hasło',
                 passwordMinMax: 'hasło powinno mieć od 8 do 60 znaków',
+                loginFailed: 'email lub hasło są nie poprawne',
                 //quiz
                 nameRequired: 'podaj poprawną nazwę',
                 nameMinMax: 'nazwa powinna mieć od 3 do 20 znaków',
@@ -183,10 +197,20 @@ const resources = {
     },
 };
 
+const getLang = () => {
+    const params = new URL(window.location.toString());
+    const lang = params.searchParams.get('lang'); // is the string "Jonathan Smith".
+    if (lang && (lang === 'en' || lang === 'pl')) {
+        return lang;
+    }
+
+    return 'en';
+};
+
 i18n.use(initReactI18next) // passes i18n down to react-i18next
     .init({
         resources,
-        lng: 'en', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
+        lng: getLang(), // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
         // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
         // if you're using a language detector, do not define the lng option
 

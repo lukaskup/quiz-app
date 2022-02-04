@@ -59,9 +59,6 @@ export const api = {
 
     //auth
     login: async (body: UserAuth) => {
-        return await axios.post(`${apiUrl}login`, body);
-    },
-    register: async (body: UserAuth) => {
-        return await axios.post(`${apiUrl}register`, body);
+        return await axios.post(`${apiUrl}users/login`, body);
     },
 };

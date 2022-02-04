@@ -221,15 +221,17 @@ export const UserQuizForm = ({ type }: UserQuizFormProps) => {
                         <option value="">
                             {t('form.choose')} {t('form.user')}
                         </option>
-                        {users.map((user) => (
-                            <option
-                                key={`user-${user._id}`}
-                                value={user._id}
-                                selected={type === UserQuizFormTypes.edit && user._id === userQuiz?.user?._id}
-                            >
-                                {`${user.firstname} ${user.lastname}`}
-                            </option>
-                        ))}
+                        {users
+                            .filter((user) => user._id !== '61fcddb26f611abd942f5f57')
+                            .map((user) => (
+                                <option
+                                    key={`user-${user._id}`}
+                                    value={user._id}
+                                    selected={type === UserQuizFormTypes.edit && user._id === userQuiz?.user?._id}
+                                >
+                                    {`${user.firstname} ${user.lastname}`}
+                                </option>
+                            ))}
                     </select>
                 </div>
 

@@ -57,6 +57,32 @@ export const NavigationContainer = styled.nav`
             right: 40px;
             top: 10px;
         }
+
+        .userProfile {
+            display: inline-block;
+
+            .avatar {
+                display: inline-block;
+                background: #6db183;
+                padding: 6px;
+                border-radius: 20px;
+                height: 20px;
+                width: 20px;
+                text-align: center;
+                color: white;
+                font-size: 15px;
+                position: absolute;
+                right: 0;
+                top: -5px;
+            }
+
+            .logout {
+                display: inline-block;
+                cursor: pointer;
+                margin-left: 20px;
+                margin-right: 40px;
+            }
+        }
     }
 
     .mobile-menu {

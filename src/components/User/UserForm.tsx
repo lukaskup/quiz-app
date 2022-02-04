@@ -26,6 +26,7 @@ export const UserForm = ({ type }: UserFormProps) => {
         firstname: '',
         lastname: '',
         password: '',
+        role: 'moderator',
     });
 
     const [redirect, setRedirect] = useState<boolean>(false);
@@ -58,7 +59,7 @@ export const UserForm = ({ type }: UserFormProps) => {
                         setRedirect(true);
                     })
                     .catch((e) => {
-                        console.log(e);
+                        setErrors(e.response.data.map((error: string) => t(error)));
                     });
             }
         }
@@ -126,7 +127,7 @@ export const UserForm = ({ type }: UserFormProps) => {
                     <label>{t('userTable.firstName')}</label>
                     <input
                         type="text"
-                        placeholder={'first name'}
+                        placeholder={t('userTable.firstName')}
                         value={user ? user.firstname : ''}
                         onChange={(e) => {
                             if (user) {
@@ -139,7 +140,7 @@ export const UserForm = ({ type }: UserFormProps) => {
                     <label>{t('userTable.lastName')}</label>
                     <input
                         type="text"
-                        placeholder={'last name'}
+                        placeholder={t('userTable.lastName')}
                         value={user ? user.lastname : ''}
                         onChange={(e) => {
                             if (user) {
@@ -152,7 +153,7 @@ export const UserForm = ({ type }: UserFormProps) => {
                     <label>{t('userTable.email')}</label>
                     <input
                         type="text"
-                        placeholder={'email'}
+                        placeholder={t('userTable.email')}
                         value={user ? user.email : ''}
                         onChange={(e) => {
                             if (user) {
@@ -162,10 +163,27 @@ export const UserForm = ({ type }: UserFormProps) => {
                     />
                 </div>
                 <div>
+                    <label>{t('userTable.role.title')}</label>
+                    <select
+                        onChange={(e) => {
+                            if (user) {
+                                setUser({ ...user, role: e.target.value });
+                            }
+                        }}
+                    >
+                        <option value="moderator" selected={user?.role === 'moderator'}>
+                            {t('userTable.role.moderator')}
+                        </option>
+                        <option value="admin" selected={user?.role === 'admin'}>
+                            {t('userTable.role.admin')}
+                        </option>
+                    </select>
+                </div>
+                <div>
                     <label>{t('userTable.password')}</label>
                     <input
                         type="text"
-                        placeholder={'password'}
+                        placeholder={t('userTable.password')}
                         value={user ? user.password : ''}
                         onChange={(e) => {
                             if (user) {

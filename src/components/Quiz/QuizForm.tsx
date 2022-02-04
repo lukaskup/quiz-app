@@ -106,7 +106,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                     <label>{t('quizTable.name')}</label>
                     <input
                         type="text"
-                        placeholder={'name'}
+                        placeholder={t('quizTable.name')}
                         value={quiz ? quiz.name : ''}
                         onChange={(e) => {
                             if (quiz) {
@@ -119,7 +119,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                     <label>{t('quizTable.description')}</label>
                     <input
                         type="text"
-                        placeholder={'description'}
+                        placeholder={t('quizTable.description')}
                         value={quiz ? quiz.description : ''}
                         onChange={(e) => {
                             if (quiz) {
@@ -134,7 +134,7 @@ export const QuizForm = ({ type }: QuizFormProps) => {
                     </label>
                     <input
                         type="text"
-                        placeholder={'image url'}
+                        placeholder={t('quizTable.imageUrl')}
                         value={quiz ? quiz.image_url : ''}
                         onChange={(e) => {
                             if (quiz) {

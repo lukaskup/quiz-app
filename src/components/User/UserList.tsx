@@ -60,32 +60,36 @@ export const UserList = ({ title }: QuizListProps) => {
                         <th>{t('userTable.firstName')}</th>
                         <th>{t('userTable.lastName')}</th>
                         <th>{t('userTable.email')}</th>
+                        <th>{t('userTable.role.title')}</th>
                         <th>{t('form.actions')}</th>
                     </tr>
                 </thead>
-                {users.map((user: User) => {
-                    return (
-                        <tr key={`${user._id}`}>
-                            <td>{user._id}</td>
-                            <td>{user.firstname}</td>
-                            <td>{user.lastname}</td>
-                            <td>{user.email}</td>
-                            <td>
-                                <ButtonLink to={`/user/view/${user._id}`}>{t('buttons.view')}</ButtonLink>
-                                <ButtonLink to={`/user/edit/${user._id}`}>{t('buttons.edit')}</ButtonLink>
-                                <ButtonIcon
-                                    className="delete-button"
-                                    onClick={() => {
-                                        setActiveDeleteUser(user);
-                                        deleteModalState.setIsOpen(true);
-                                    }}
-                                >
-                                    <ReactSVG src={TrashIcon} />
-                                </ButtonIcon>
-                            </td>
-                        </tr>
-                    );
-                })}
+                {users
+                    .filter((user) => user._id !== '61fcddb26f611abd942f5f57')
+                    .map((user: User) => {
+                        return (
+                            <tr key={`${user._id}`}>
+                                <td>{user._id}</td>
+                                <td>{user.firstname}</td>
+                                <td>{user.lastname}</td>
+                                <td>{user.email}</td>
+                                <td>{user.role}</td>
+                                <td>
+                                    <ButtonLink to={`/user/view/${user._id}`}>{t('buttons.view')}</ButtonLink>
+                                    <ButtonLink to={`/user/edit/${user._id}`}>{t('buttons.edit')}</ButtonLink>
+                                    <ButtonIcon
+                                        className="delete-button"
+                                        onClick={() => {
+                                            setActiveDeleteUser(user);
+                                            deleteModalState.setIsOpen(true);
+                                        }}
+                                    >
+                                        <ReactSVG src={TrashIcon} />
+                                    </ButtonIcon>
+                                </td>
+                            </tr>
+                        );
+                    })}
             </Table>
             <Modal
                 state={deleteModalState}

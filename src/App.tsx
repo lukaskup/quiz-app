@@ -13,8 +13,11 @@ import { QuizView, QuizList } from './components/Quiz';
 import { LoginForm } from './components/Auth';
 
 import '../src/i18n';
+import { useAuth } from './hooks/useAuth';
 
 function App() {
+    const { getUser } = useAuth();
+    const userAuth = getUser();
     return (
         <Router>
             <ThemeProvider theme={theme}>
@@ -26,25 +29,41 @@ function App() {
                         {/*quiz routes*/}
                         <Route exact path="/quiz/" component={() => <QuizList />} />
                         <Route path="/quiz/view/:id" component={QuizView} />
-                        <Route path="/quiz/edit/:id" component={() => <QuizForm type={QuizFormTypes.edit} />} />
-                        <Route path="/quiz/add" component={() => <QuizForm type={QuizFormTypes.add} />} />
+                        {userAuth && (
+                            <Route path="/quiz/edit/:id" component={() => <QuizForm type={QuizFormTypes.edit} />} />
+                        )}
+                        {userAuth && <Route path="/quiz/add" component={() => <QuizForm type={QuizFormTypes.add} />} />}
 
                         {/*user routes*/}
-                        <Route exact path="/user/" component={() => <UserList />} />
-                        <Route path="/user/view/:id" component={UserView} />
-                        <Route path="/user/edit/:id" component={() => <UserForm type={UserFormTypes.edit} />} />
-                        <Route path="/user/add" component={() => <UserForm type={UserFormTypes.add} />} />
+                        {userAuth && userAuth.role === 'admin' && (
+                            <Route exact path="/user/" component={() => <UserList />} />
+                        )}
+                        {userAuth && userAuth.role === 'admin' && <Route path="/user/view/:id" component={UserView} />}
+                        {userAuth && userAuth.role === 'admin' && (
+                            <Route path="/user/edit/:id" component={() => <UserForm type={UserFormTypes.edit} />} />
+                        )}
+                        {userAuth && userAuth.role === 'admin' && (
+                            <Route path="/user/add" component={() => <UserForm type={UserFormTypes.add} />} />
+                        )}
 
                         {/*userQuiz routes*/}
-                        <Route exact path="/userQuiz/" component={() => <UserQuizList />} />
-                        <Route path="/userQuiz/view/:id" component={UserQuizView} />
-                        <Route
-                            path="/userQuiz/edit/:id"
-                            component={() => <UserQuizForm type={UserQuizFormTypes.edit} />}
-                        />
-                        <Route path="/userQuiz/add" component={() => <UserQuizForm type={UserQuizFormTypes.add} />} />
+                        {userAuth && <Route exact path="/userQuiz/" component={() => <UserQuizList />} />}
+                        {userAuth && <Route path="/userQuiz/view/:id" component={UserQuizView} />}
+                        {userAuth && (
+                            <Route
+                                path="/userQuiz/edit/:id"
+                                component={() => <UserQuizForm type={UserQuizFormTypes.edit} />}
+                            />
+                        )}
+                        {userAuth && (
+                            <Route
+                                path="/userQuiz/add"
+                                component={() => <UserQuizForm type={UserQuizFormTypes.add} />}
+                            />
+                        )}
                         {/*auth*/}
                         <Route path="/login" component={() => <LoginForm />} />
+                        <Redirect to="/quiz" />
                     </Switch>
                 </Container>
             </ThemeProvider>
