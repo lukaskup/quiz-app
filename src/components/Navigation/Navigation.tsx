@@ -31,6 +31,9 @@ export const Navigation = () => {
                         <option value="en">{t('english')}</option>
                         <option value="pl">{t('polish')}</option>
                     </select>
+                    <Link to={'/login'} className="login">
+                        {t('navigation.login')}
+                    </Link>
                 </div>
                 <div className={'mobile-menu'}>
                     <ReactSVG

@@ -34,6 +34,7 @@ const resources = {
                 quizzes: 'quizzes',
                 users: 'users',
                 userQuizzes: 'userQuizzes',
+                login: 'sign in',
             },
             form: {
                 actions: 'actions',
@@ -106,6 +107,7 @@ const resources = {
                 quizzes: 'quizy',
                 users: 'użytkownicy',
                 userQuizzes: 'użytkownikQuiz',
+                login: 'zaloguj się',
             },
             form: {
                 actions: 'akcje',
